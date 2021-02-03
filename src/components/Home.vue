@@ -3,6 +3,7 @@
     <Nav></Nav>
     <Main></Main>
     <Footer></Footer>
+    <Warning></Warning>
   </div>
 </template>
 
@@ -10,12 +11,14 @@
   import Nav from './Nav'
   import Main from './Main'
   import Footer from './Footer'
+  import Warning from './Warning'
 
   export default {
     components: {
       Nav,
       Main,
       Footer,
+      Warning,
     },
     name: 'Home',
     data() {
