@@ -1,7 +1,7 @@
 <template>
-    <div>
-        <div class="container d-flex justify-content-between">
-            <div class="custom d-flex justify-content-between mt-2">
+    <div class="wrapper">
+        <div>
+            <div class="d-flex justify-content-between">
                 <a href="#">
                     <img src="../assets/images/logo.png" alt="logo">
                 </a>
@@ -10,14 +10,13 @@
                     <i class="fas fa-bars"></i>
                 </a>
             </div>
-
-            <div class="collapse" id="collapseMenu">
-                <nav class="nav text-center">
-                    <a class="nav-link active" href="#">首頁</a>
-                    <a class="nav-link" href="#">產品項目</a>
-                    <a class="nav-link" href="#">後臺管理</a>
-                </nav>
-            </div>
+        </div>
+        <div class="collapse" id="collapseMenu">
+            <nav class="nav text-center">
+                <a class="nav-link" href="#">首頁</a>
+                <a class="nav-link" href="#">產品項目</a>
+                <a class="nav-link" href="#">後臺管理</a>
+            </nav>
         </div>
     </div>
 </template>
@@ -32,6 +31,18 @@
 </script>
 
 <style lang="scss" scoped>
+    .wrapper {
+        padding: 10px 20px;
+    }
+
+    .nav-link {
+        font-size: 18px;
+        font-weight: bold;
+        transition: .3s all;
+    }
+    .nav-link:hover {
+        transform: translateY(-10px);
+    }
     .menu-btn {
         color: #000;
     }
@@ -43,19 +54,18 @@
     .nav {
         flex-direction: column;
     }
-    .nav-link {
-        font-weight: bold;
-    }
+
     .fas.fa-bars {
         font-size: 40px;
         cursor: pointer;
     }
 
-    .custom {
-        width: 100%;
-    }
-
     @media screen and (min-width: 768px) {
+        .wrapper {
+            display: flex;
+            justify-content: space-between;
+        }
+
         .menu-btn {
             display: none;
         }
@@ -66,10 +76,6 @@
 
         .nav {
             flex-direction: row;
-        }
-
-        .custom {
-            width: auto;
         }
     }
 </style>

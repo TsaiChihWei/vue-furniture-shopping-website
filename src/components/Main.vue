@@ -22,7 +22,7 @@
             <div class="title"><i class="far fa-money-bill-alt mr-1"></i>高 CP 值</div>
             <div class="sutbtitle">It’s good value</div>
             <div class="description">「有些夢想遙不可及，有些夢想垂手可得」­</div>
-            <div>我們提供透明且實在的價格，讓您輕鬆打造屬於自己的設計之家。</div>
+            <div class="description">我們提供透明且實在的價格，讓您輕鬆打造屬於自己的設計之家。</div>
           </div>
         </div>
       </div>
