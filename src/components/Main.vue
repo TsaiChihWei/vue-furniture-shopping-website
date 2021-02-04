@@ -52,30 +52,30 @@
       <div class="container mt-5">
         <div class="title text-center">熱門產品分類</div>
         <div class="categories row">
-          <a href="#" class="col-12 col-md-4 category">
+          <routerLink to="/products?category=L型沙發" class="col-12 col-md-4 category">
             <div class="subtitle">L 型沙發</div>
             <img class="img-fluid" src="../assets/images/sofa/sofa1.jpg" alt="">
-          </a>
-          <a href="#" class="col-12 col-md-4 category">
+          </routerLink>
+          <routerLink to="/products?category=一字型沙發" class="col-12 col-md-4 category">
             <div class="subtitle">一字型沙發</div>
             <img class="img-fluid" src="../assets/images/sofa/sofa2.jpg" alt="">
-          </a>
-          <a href="#" class="col-12 col-md-4 category">
+          </routerLink>
+          <routerLink to="/products?category=單椅" class="col-12 col-md-4 category">
             <div class="subtitle">單椅</div>
             <img class="img-fluid" src="../assets/images/chair/chair1.jpg" alt="">
-          </a>
-          <a href="#" class="col-12 col-md-4 category">
+          </routerLink>
+          <routerLink to="/products?category=茶几" class="col-12 col-md-4 category">
             <div class="subtitle">茶几</div>
             <img class="img-fluid" src="../assets/images/table/little-table.jpg" alt="">
-          </a>
-          <a href="#" class="col-12 col-md-4 category">
+          </routerLink>
+          <routerLink to="/products?category=電視櫃" class="col-12 col-md-4 category">
             <div class="subtitle">電視櫃</div>
             <img class="img-fluid" src="../assets/images/tv-cabinet.jpg" alt="">
-          </a>
-          <a href="#" class="col-12 col-md-4 category">
+          </routerLink>
+          <routerLink to="/products?category=餐桌" class="col-12 col-md-4 category">
             <div class="subtitle">餐桌</div>
             <img class="img-fluid" src="../assets/images/table/table1.jpg" alt="">
-          </a>
+          </routerLink>
         </div>
       </div>
     </div>

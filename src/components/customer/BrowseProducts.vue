@@ -11,11 +11,12 @@
             aria-expanded="false">產品分類</a>
           <div class="dropdown-menu">
             <a class="dropdown-item" @click="category = '單椅'">單椅</a>
-            <a class="dropdown-item" @click="category = 'L 型沙發'">L 型沙發</a>
+            <a class="dropdown-item" @click="category = 'L型沙發'">L 型沙發</a>
             <a class="dropdown-item" @click="category = '一字型沙發'">一字型沙發</a>
             <a class="dropdown-item" @click="category = '餐桌'">餐桌</a>
             <a class="dropdown-item" @click="category = '茶几'">茶几</a>
             <a class="dropdown-item" @click="category = '電視櫃'">電視櫃</a>
+            <a class="dropdown-item" @click="category = '全部'">全部</a>
           </div>
         </li>
         <li class="nav-item">
@@ -26,7 +27,7 @@
 
     <!-- 顯示產品 -->
     <div class="row mt-4">
-      <div class="col-6 col-md-4 mb-3" v-for="item in filterCategory" :key="item.id">
+      <div class="col-6 col-md-4 mb-3 col-lg-3" v-for="item in filterCategory" :key="item.id">
         <div class="card text-center border-0 shadow-sm">
           <div style="height: 150px; background-size: cover; background-position: center"
             :style="{backgroundImage: `url(${item.imageUrl})`}">
@@ -52,6 +53,7 @@
       </div>
 
     </div>
+
   </div>
 </template>
 
@@ -70,7 +72,7 @@
         status: {
           loadingItem: '',
         },
-        category: '單椅',
+        category: this.$route.query.category || '全部',
         cart: {},
         isLoading: false,
         form: {
@@ -82,12 +84,16 @@
           },
           message: '',
         },
+        pagination: {
+          currentPage: 1,
+          itemsPerPage: 10,
+        },
       };
     },
     methods: {
       getProducts() {
         const vm = this;
-        const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/products`;
+        const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/products/all`;
         vm.isLoading = true;
         this.$http.get(url).then((response) => {
           vm.products = response.data.products;
@@ -167,30 +173,53 @@
           }
           vm.isLoading = false;
         });
-      }
+      },
+      pageCouter(categoryName) {
+        const filterData = [...this.products]
+        const totalProducts = filterData.filter(item => item.category === categoryName)
+        const totalProductsCounts = filterData.filter(item => item.category === categoryName).length
+        const itemsPerPage = this.pagination.itemsPerPage
+        let totalPages = Math.ceil(totalProductsCounts / itemsPerPage)
+        const offset = (this.pagination.currentPage - 1) * itemsPerPage
+        return totalProducts.slice(offset, offset + itemsPerPage)
+      },
     },
     computed: {
       filterCategory() {
-        const filterData = [...this.products]
-        switch (this.category) {
-          case '單椅':
-          return filterData.filter(item => item.category === '單椅')
-          case 'L 型沙發':
-          return filterData.filter(item => item.category === 'L 型沙發')
-          case '一字型沙發':
-          return filterData.filter(item => item.category === '一字型沙發')
-          case '茶几':
-          return filterData.filter(item => item.category === '茶几')
-          case '餐桌':
-          return filterData.filter(item => item.category === '餐桌')
-          case '電視櫃':
-          return filterData.filter(item => item.category === '電視櫃')
+        if (this.category === '單椅') {
+          return this.pageCouter('單椅')
+        }
+        if (this.category === '茶几') {
+          return this.pageCouter('茶几')
+        }
+        if (this.category === '電視櫃') {
+          return this.pageCouter('電視櫃')
+        }
+        if (this.category === '餐桌') {
+          return this.pageCouter('餐桌')
+        }
+        if (this.category === 'L型沙發') {
+          return this.pageCouter('L型沙發')
+        }
+        if (this.category === '一字型沙發') {
+          return this.pageCouter('一字型沙發')
+        }
+        if (this.category === '全部') {
+          const filterData = [...this.products]
+          const totalProducts = filterData
+          const totalProductsCounts = filterData.length
+          const itemsPerPage = this.pagination.itemsPerPage
+          let totalPages = Math.ceil(totalProductsCounts / itemsPerPage)
+          const offset = (this.pagination.currentPage - 1) * itemsPerPage
+          return totalProducts.slice(offset, offset + itemsPerPage)
         }
       }
     },
     created() {
       this.getProducts();
       this.getCart();
+      
+      console.log(this.$route.query.category);
     },
   };
 </script>
@@ -226,6 +255,7 @@
   .original-price {
     color: #aaaaaa;
   }
+
   .price {
     color: #7ab3b3;
   }
