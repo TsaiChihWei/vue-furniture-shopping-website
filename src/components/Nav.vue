@@ -13,9 +13,9 @@
         </div>
         <div class="collapse" id="collapseMenu">
             <nav class="nav text-center">
-                <a class="nav-link" href="#">首頁</a>
-                <a class="nav-link" href="#">產品項目</a>
-                <a class="nav-link" href="#">後臺管理</a>
+                <routerLink class="nav-link" to="/home">首頁</routerLink>
+                <routerLink class="nav-link" to="/products">產品項目</routerLink>
+                <routerLink class="nav-link" to="/admin">後臺管理</routerLink>
             </nav>
         </div>
     </div>

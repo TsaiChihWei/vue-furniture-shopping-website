@@ -4,15 +4,18 @@
     <div class="banner">
     </div>
     <div class="navbar">
-      <div class="title text-center">產品項目：單椅</div>
+      <div class="title text-center">產品項目：{{ category }}</div>
       <ul class="nav nav-pills">
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
             aria-expanded="false">產品分類</a>
           <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
+            <a class="dropdown-item" @click="category = '單椅'">單椅</a>
+            <a class="dropdown-item" @click="category = 'L 型沙發'">L 型沙發</a>
+            <a class="dropdown-item" @click="category = '一字型沙發'">一字型沙發</a>
+            <a class="dropdown-item" @click="category = '餐桌'">餐桌</a>
+            <a class="dropdown-item" @click="category = '茶几'">茶几</a>
+            <a class="dropdown-item" @click="category = '電視櫃'">電視櫃</a>
           </div>
         </li>
         <li class="nav-item">
@@ -23,7 +26,7 @@
 
     <!-- 顯示產品 -->
     <div class="row mt-4">
-      <div class="col-6 col-md-4 mb-3" v-for="item in products" :key="item.id">
+      <div class="col-6 col-md-4 mb-3" v-for="item in filterCategory" :key="item.id">
         <div class="card text-center border-0 shadow-sm">
           <div style="height: 150px; background-size: cover; background-position: center"
             :style="{backgroundImage: `url(${item.imageUrl})`}">
@@ -67,9 +70,9 @@
         status: {
           loadingItem: '',
         },
+        category: '單椅',
         cart: {},
         isLoading: false,
-        coupon_code: '',
         form: {
           user: {
             name: '',
@@ -164,6 +167,25 @@
           }
           vm.isLoading = false;
         });
+      }
+    },
+    computed: {
+      filterCategory() {
+        const filterData = [...this.products]
+        switch (this.category) {
+          case '單椅':
+          return filterData.filter(item => item.category === '單椅')
+          case 'L 型沙發':
+          return filterData.filter(item => item.category === 'L 型沙發')
+          case '一字型沙發':
+          return filterData.filter(item => item.category === '一字型沙發')
+          case '茶几':
+          return filterData.filter(item => item.category === '茶几')
+          case '餐桌':
+          return filterData.filter(item => item.category === '餐桌')
+          case '電視櫃':
+          return filterData.filter(item => item.category === '電視櫃')
+        }
       }
     },
     created() {
