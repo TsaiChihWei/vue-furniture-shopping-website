@@ -11,7 +11,7 @@
           <div class="feature col-12 col-md-4">
             <div class="title"><i class="fas fa-medal mr-1"></i>優良品質</div>
             <div class="sutbtitle">High quality</div>
-            <div class="description">格蘭傑當代空間的家具工廠為義大利頂級家具品牌認可的工藝品質，目前外銷各大國家如日本、比利時、美國、新加坡、等居家、精品店以及國際連鎖五星級飯店御用之品質。</div>
+            <div class="description">Schon 當代空間的家具工廠為義大利頂級家具品牌認可的工藝品質，目前外銷各大國家如日本、比利時、美國、新加坡、等居家、精品店以及國際連鎖五星級飯店御用之品質。</div>
           </div>
           <div class="feature col-12 col-md-4">
             <div class="title"><i class="fas fa-crop-alt mr-1"></i>原創設計</div>
