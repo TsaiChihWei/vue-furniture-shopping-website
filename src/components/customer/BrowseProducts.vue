@@ -10,7 +10,7 @@
           <select class="custom-select" v-model="filter.category">
             <option value="全部">全部</option>
             <option value="單椅">單椅</option>
-            <option value="L型沙發">L 型沙發</option>
+            <option value="L 型沙發">L 型沙發</option>
             <option value="一字型沙發">一字型沙發</option>
             <option value="餐桌">餐桌</option>
             <option value="茶几">茶几</option>
@@ -75,7 +75,7 @@
           loadingItem: '',
         },
         filter: {
-          category: this.$route.query.category || '全部',
+          category: decodeURIComponent(this.$route.query.category) || '全部',
           price: '最新'
         },
         cart: {},
@@ -203,8 +203,8 @@
         if (this.filter.category === '餐桌') {
           return this.pageCouter('餐桌')
         }
-        if (this.filter.category === 'L型沙發') {
-          return this.pageCouter('L型沙發')
+        if (this.filter.category === 'L 型沙發') {
+          return this.pageCouter('L 型沙發')
         }
         if (this.filter.category === '一字型沙發') {
           return this.pageCouter('一字型沙發')
@@ -224,7 +224,7 @@
       this.getProducts();
       this.getCart();
       
-      console.log(this.$route.query.category);
+      // console.log(this.$route.query.category);
     },
   };
 </script>

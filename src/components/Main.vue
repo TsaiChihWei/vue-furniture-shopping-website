@@ -52,7 +52,7 @@
       <div class="container mt-5">
         <div class="title text-center">熱門產品分類</div>
         <div class="categories row">
-          <routerLink to="/products?category=L型沙發" class="col-12 col-md-4 category">
+          <routerLink to="/products?category=L 型沙發" class="col-12 col-md-4 category">
             <div class="subtitle">L 型沙發</div>
             <img class="img-fluid" src="../assets/images/sofa/sofa1.jpg" alt="">
           </routerLink>
