@@ -20,8 +20,8 @@
         <li>
           <select class="custom-select ml-2" v-model="filter.price">
             <option value="最新">最新</option>
-            <option value="由高到低">價格</option>
-            <option value="由低到高">價格</option>
+            <option value="由高到低">價格：由高到低</option>
+            <option value="由低到高">價格：由低到高</option>
           </select>
         </li>
       </ul>
@@ -181,6 +181,12 @@
       },
       pageCouter(categoryName) {
         const filterData = [...this.products]
+        if (this.filter.price === '由高到低') {
+          filterData.sort((a, b) => b.price - a.price)
+        }
+        if (this.filter.price === '由低到高') {
+          filterData.sort((a, b) => a.price - b.price)
+        }
         const totalProducts = filterData.filter(item => item.category === categoryName)
         const totalProductsCounts = filterData.filter(item => item.category === categoryName).length
         const itemsPerPage = this.pagination.itemsPerPage
@@ -211,6 +217,13 @@
         }
         if (this.filter.category === '全部') {
           const filterData = [...this.products]
+          if (this.filter.price === '由高到低') {
+            filterData.sort((a, b) => b.price - a.price)
+            console.log(filterData[0]);
+          }
+          if (this.filter.price === '由低到高') {
+            filterData.sort((a, b) => a.price - b.price)
+          }
           const totalProducts = filterData
           const totalProductsCounts = filterData.length
           const itemsPerPage = this.pagination.itemsPerPage
@@ -223,10 +236,11 @@
     created() {
       this.getProducts();
       this.getCart();
+
+      // 如果是從首頁的熱門商品分類連進來的話
       if (this.$route.query.category) {
         this.filter.category = this.$route.query.category
       }
-      // console.log(this.$route.query.category);
     },
   };
 </script>
@@ -257,11 +271,13 @@
   .nav-link {
     font-weight: bold;
   }
+
   /* 產品分類選單 */
-    .custom-select {
-      font-weight: bold;
-      color: #7ab3b3;
-    }
+  .custom-select {
+    font-weight: bold;
+    color: #7ab3b3;
+  }
+
   /* 產品列表 */
   .original-price {
     color: #aaaaaa;
@@ -271,10 +287,13 @@
     color: #7ab3b3;
   }
 
-  @media screen and (max-width: 375px) {
+
+  /* 產品分類及價錢分類小螢幕調整 */
+  @media screen and (max-width: 450px) {
     .navbar.container {
       flex-direction: column;
     }
+
     .nav.nav-pills {
       margin-bottom: 10px;
       order: -1;
