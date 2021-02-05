@@ -2,9 +2,9 @@
     <div class="wrapper">
         <div>
             <div class="d-flex justify-content-between">
-                <a href="#">
+                <routerLink to="/home">
                     <img src="../assets/images/logo.png" alt="logo">
-                </a>
+                </routerLink>
                 <a class="menu-btn" data-toggle="collapse" href="#collapseMenu" role="button" aria-expanded="false"
                     aria-controls="collapseExample">
                     <i class="fas fa-bars"></i>

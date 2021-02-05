@@ -75,7 +75,7 @@
           loadingItem: '',
         },
         filter: {
-          category: decodeURIComponent(this.$route.query.category) || '全部',
+          category: '全部',
           price: '最新'
         },
         cart: {},
@@ -223,7 +223,9 @@
     created() {
       this.getProducts();
       this.getCart();
-      
+      if (this.$route.query.category) {
+        this.filter.category = this.$route.query.category
+      }
       // console.log(this.$route.query.category);
     },
   };
