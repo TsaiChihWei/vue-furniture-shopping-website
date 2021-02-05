@@ -33,7 +33,7 @@
             </tbody>
         </table>
    
-        <Pagination :pages="pagination" @emitPages="getProducts"></Pagination>
+        <ManagerPagination :pages="pagination" @emitPages="getProducts"></ManagerPagination>
         <!-- Modal -->
         <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
@@ -155,7 +155,7 @@
 
 <script>
     import $ from 'jquery'
-    import Pagination from '../Pagination'
+    import ManagerPagination from './ManagerPagination'
     export default {
         data() {
             return {
@@ -170,7 +170,7 @@
             }
         },
         components: {
-            Pagination,
+            ManagerPagination,
         },
         methods: {
             getProducts(page = 1) {

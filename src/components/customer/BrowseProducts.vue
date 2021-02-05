@@ -56,16 +56,19 @@
 
     </div>
 
+    <Pagination :pagination="pagination" @emitPages="updatePage"></Pagination>
   </div>
 </template>
 
 
 <script>
   import Nav from '../Nav'
+  import Pagination from './Pagination'
   import $ from 'jquery';
   export default {
     components: {
       Nav,
+      Pagination
     },
     data() {
       return {
@@ -92,6 +95,7 @@
         pagination: {
           currentPage: 1,
           itemsPerPage: 10,
+          totalPages: '',
         },
       };
     },
@@ -180,20 +184,32 @@
         });
       },
       pageCouter(categoryName) {
-        const filterData = [...this.products]
+        // API 抓回來的資料是從最舊道最新，預設要顯示最新，所以這邊把它反轉
+        const filterData = [...this.products].reverse()
+        // 價錢篩選
         if (this.filter.price === '由高到低') {
           filterData.sort((a, b) => b.price - a.price)
         }
         if (this.filter.price === '由低到高') {
           filterData.sort((a, b) => a.price - b.price)
         }
-        const totalProducts = filterData.filter(item => item.category === categoryName)
-        const totalProductsCounts = filterData.filter(item => item.category === categoryName).length
+        
+        let totalProducts = filterData.filter(item => item.category == categoryName)
+        let totalProductsCounts = filterData.filter(item => item.category == categoryName).length
+        if (categoryName === '全部') {
+          totalProducts = filterData
+          totalProductsCounts = filterData.length
+        }
         const itemsPerPage = this.pagination.itemsPerPage
-        let totalPages = Math.ceil(totalProductsCounts / itemsPerPage)
+        this.pagination.totalPages = Math.ceil(totalProductsCounts / itemsPerPage)
         const offset = (this.pagination.currentPage - 1) * itemsPerPage
         return totalProducts.slice(offset, offset + itemsPerPage)
       },
+      updatePage(emittedPage) {
+        this.pagination.currentPage = emittedPage
+        // 滾動到最上面
+        $('html,body').animate({ scrollTop: 0 }, 'slow')
+      }
     },
     computed: {
       filterCategory() {
@@ -216,20 +232,7 @@
           return this.pageCouter('一字型沙發')
         }
         if (this.filter.category === '全部') {
-          const filterData = [...this.products]
-          if (this.filter.price === '由高到低') {
-            filterData.sort((a, b) => b.price - a.price)
-            console.log(filterData[0]);
-          }
-          if (this.filter.price === '由低到高') {
-            filterData.sort((a, b) => a.price - b.price)
-          }
-          const totalProducts = filterData
-          const totalProductsCounts = filterData.length
-          const itemsPerPage = this.pagination.itemsPerPage
-          let totalPages = Math.ceil(totalProductsCounts / itemsPerPage)
-          const offset = (this.pagination.currentPage - 1) * itemsPerPage
-          return totalProducts.slice(offset, offset + itemsPerPage)
+          return this.pageCouter('全部')
         }
       }
     },
