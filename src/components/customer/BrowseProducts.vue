@@ -3,24 +3,26 @@
     <Nav></Nav>
     <div class="banner">
     </div>
-    <div class="navbar">
-      <div class="title text-center">產品項目：{{ category }}</div>
+    <div class="navbar container">
+      <div class="title text-center">產品項目：{{ filter.category }}</div>
       <ul class="nav nav-pills">
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
-            aria-expanded="false">產品分類</a>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" @click="category = '單椅'">單椅</a>
-            <a class="dropdown-item" @click="category = 'L型沙發'">L 型沙發</a>
-            <a class="dropdown-item" @click="category = '一字型沙發'">一字型沙發</a>
-            <a class="dropdown-item" @click="category = '餐桌'">餐桌</a>
-            <a class="dropdown-item" @click="category = '茶几'">茶几</a>
-            <a class="dropdown-item" @click="category = '電視櫃'">電視櫃</a>
-            <a class="dropdown-item" @click="category = '全部'">全部</a>
-          </div>
+        <li>
+          <select class="custom-select" v-model="filter.category">
+            <option value="全部">全部</option>
+            <option value="單椅">單椅</option>
+            <option value="L型沙發">L 型沙發</option>
+            <option value="一字型沙發">一字型沙發</option>
+            <option value="餐桌">餐桌</option>
+            <option value="茶几">茶几</option>
+            <option value="電視櫃">電視櫃</option>
+          </select>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">價格</a>
+        <li>
+          <select class="custom-select ml-2" v-model="filter.price">
+            <option value="最新">最新</option>
+            <option value="由高到低">價格</option>
+            <option value="由低到高">價格</option>
+          </select>
         </li>
       </ul>
     </div>
@@ -72,7 +74,10 @@
         status: {
           loadingItem: '',
         },
-        category: this.$route.query.category || '全部',
+        filter: {
+          category: this.$route.query.category || '全部',
+          price: '最新'
+        },
         cart: {},
         isLoading: false,
         form: {
@@ -186,25 +191,25 @@
     },
     computed: {
       filterCategory() {
-        if (this.category === '單椅') {
+        if (this.filter.category === '單椅') {
           return this.pageCouter('單椅')
         }
-        if (this.category === '茶几') {
+        if (this.filter.category === '茶几') {
           return this.pageCouter('茶几')
         }
-        if (this.category === '電視櫃') {
+        if (this.filter.category === '電視櫃') {
           return this.pageCouter('電視櫃')
         }
-        if (this.category === '餐桌') {
+        if (this.filter.category === '餐桌') {
           return this.pageCouter('餐桌')
         }
-        if (this.category === 'L型沙發') {
+        if (this.filter.category === 'L型沙發') {
           return this.pageCouter('L型沙發')
         }
-        if (this.category === '一字型沙發') {
+        if (this.filter.category === '一字型沙發') {
           return this.pageCouter('一字型沙發')
         }
-        if (this.category === '全部') {
+        if (this.filter.category === '全部') {
           const filterData = [...this.products]
           const totalProducts = filterData
           const totalProductsCounts = filterData.length
@@ -250,7 +255,11 @@
   .nav-link {
     font-weight: bold;
   }
-
+  /* 產品分類選單 */
+    .custom-select {
+      font-weight: bold;
+      color: #7ab3b3;
+    }
   /* 產品列表 */
   .original-price {
     color: #aaaaaa;
@@ -258,5 +267,15 @@
 
   .price {
     color: #7ab3b3;
+  }
+
+  @media screen and (max-width: 375px) {
+    .navbar.container {
+      flex-direction: column;
+    }
+    .nav.nav-pills {
+      margin-bottom: 10px;
+      order: -1;
+    }
   }
 </style>
