@@ -22,18 +22,17 @@
       </ul>
     </nav>
   </template>
-  
-  <script>
-  // :pages="{ 頁碼資訊 }"
-  // @emitPages="更新頁面事件"
-  export default {
-    name: 'Pagination',
-    props: ['pages'],
-    methods: {
-      updatePage(page) {
-        this.$emit('emitPages', page);
-      },
-    },
-  };
-  </script>
-  
+
+<script>
+// :pages="{ 頁碼資訊 }"
+// @emitPages="更新頁面事件"
+export default {
+  name: 'Pagination',
+  props: ['pages'],
+  methods: {
+    updatePage (page) {
+      this.$emit('emitPages', page)
+    }
+  }
+}
+</script>

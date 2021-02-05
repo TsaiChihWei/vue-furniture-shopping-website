@@ -86,36 +86,36 @@
       font-size: 24px;
       font-weight: bold;
     }
-  
+
     .subtitle {
       color: #aaaaaa;
     }
-  
+
     .description {
       color: #777777;
     }
-  
+
     .feature+.feature {
       margin-top: 20px;
     }
-  
+
     /* 關注我們 social-links */
     .social-links .subtitle {
       margin-bottom: 20px;
       font-size: 36px;
       color: #7ab3b3;
     }
-  
+
     .links a {
       color: #7ab3b3;
     }
-  
+
     .links a i {
       margin-right: 10px;
       font-size: 28px;
       color: #7ab3b3;
     }
-  
+
     /* 熱門產品分類 */
     .category {
       position: relative;

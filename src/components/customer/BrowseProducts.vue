@@ -60,192 +60,192 @@
   </div>
 </template>
 
-
 <script>
-  import Nav from '../Nav'
-  import Pagination from './Pagination'
-  import $ from 'jquery';
-  export default {
-    components: {
-      Nav,
-      Pagination
-    },
-    data() {
-      return {
-        products: [],
-        product: {},
-        status: {
-          loadingItem: '',
+import Nav from '../Nav'
+import Pagination from './Pagination'
+import $ from 'jquery'
+export default {
+  components: {
+    Nav,
+    Pagination
+  },
+  data () {
+    return {
+      products: [],
+      product: {},
+      status: {
+        loadingItem: ''
+      },
+      filter: {
+        category: '全部',
+        price: '最新'
+      },
+      cart: {},
+      isLoading: false,
+      form: {
+        user: {
+          name: '',
+          email: '',
+          tel: '',
+          address: ''
         },
-        filter: {
-          category: '全部',
-          price: '最新'
-        },
-        cart: {},
-        isLoading: false,
-        form: {
-          user: {
-            name: '',
-            email: '',
-            tel: '',
-            address: '',
-          },
-          message: '',
-        },
-        pagination: {
-          currentPage: 1,
-          itemsPerPage: 10,
-          totalPages: '',
-        },
-      };
-    },
-    methods: {
-      getProducts() {
-        const vm = this;
-        const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/products/all`;
-        vm.isLoading = true;
-        this.$http.get(url).then((response) => {
-          vm.products = response.data.products;
-          console.log(response);
-          vm.isLoading = false;
-        });
+        message: ''
       },
-      getProduct(id) {
-        const vm = this;
-        const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/product/${id}`;
-        vm.status.loadingItem = id;
-        this.$http.get(url).then((response) => {
-          vm.product = response.data.product;
-          $('#productModal').modal('show');
-          console.log(response);
-          vm.status.loadingItem = '';
-        });
-      },
-      addtoCart(id, qty = 1) {
-        const vm = this;
-        const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`;
-        vm.status.loadingItem = id;
-        const cart = {
-          product_id: id,
-          qty,
-        };
-        this.$http.post(url, { data: cart }).then((response) => {
-          console.log(response);
-          vm.status.loadingItem = '';
-          vm.getCart();
-          $('#productModal').modal('hide');
-        });
-      },
-      getCart() {
-        const vm = this;
-        const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`;
-        vm.isLoading = true;
-        this.$http.get(url).then((response) => {
-          // vm.products = response.data.products;
-          vm.cart = response.data.data;
-          console.log(response);
-          vm.isLoading = false;
-        });
-      },
-      removeCartItem(id) {
-        const vm = this;
-        const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart/${id}`;
-        vm.isLoading = true;
-        this.$http.delete(url).then((response) => {
-          vm.getCart()
-          console.log(response);
-          vm.isLoading = false;
-        });
-      },
-      addCouponCode() {
-        const vm = this;
-        const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/coupon`;
-        const coupon = {
-          coode: vm.coupon_code
-        }
-        vm.isLoading = true;
-        this.$http.post(url, { data: coupon }).then((response) => {
-          vm.getCart()
-          console.log(response);
-          vm.isLoading = false;
-        });
-      },
-      createOrder() {
-        const vm = this;
-        const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/order`;
-        const order = vm.form
-        vm.isLoading = true;
-        this.$http.post(url, { data: order }).then((response) => {
-          console.log('訂單已建立', response);
-          if (response.data.success) {
-            vm.$router.push(`/customer_checkout/${response.data.orderId}`)
-          }
-          vm.isLoading = false;
-        });
-      },
-      pageCouter(categoryName) {
-        // API 抓回來的資料是從最舊道最新，預設要顯示最新，所以這邊把它反轉
-        const filterData = [...this.products].reverse()
-        // 價錢篩選
-        if (this.filter.price === '由高到低') {
-          filterData.sort((a, b) => b.price - a.price)
-        }
-        if (this.filter.price === '由低到高') {
-          filterData.sort((a, b) => a.price - b.price)
-        }
-        
-        let totalProducts = filterData.filter(item => item.category == categoryName)
-        let totalProductsCounts = filterData.filter(item => item.category == categoryName).length
-        if (categoryName === '全部') {
-          totalProducts = filterData
-          totalProductsCounts = filterData.length
-        }
-        const itemsPerPage = this.pagination.itemsPerPage
-        this.pagination.totalPages = Math.ceil(totalProductsCounts / itemsPerPage)
-        const offset = (this.pagination.currentPage - 1) * itemsPerPage
-        return totalProducts.slice(offset, offset + itemsPerPage)
-      },
-      updatePage(emittedPage) {
-        this.pagination.currentPage = emittedPage
-        // 滾動到最上面
-        $('html,body').animate({ scrollTop: 0 }, 'slow')
+      pagination: {
+        currentPage: 1,
+        itemsPerPage: 10,
+        totalPages: ''
       }
+    }
+  },
+  methods: {
+    getProducts () {
+      const vm = this
+      const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/products/all`
+      vm.isLoading = true
+      this.$http.get(url).then((response) => {
+        vm.products = response.data.products
+        console.log(response)
+        vm.isLoading = false
+      })
     },
-    computed: {
-      filterCategory() {
-        if (this.filter.category === '單椅') {
-          return this.pageCouter('單椅')
-        }
-        if (this.filter.category === '茶几') {
-          return this.pageCouter('茶几')
-        }
-        if (this.filter.category === '電視櫃') {
-          return this.pageCouter('電視櫃')
-        }
-        if (this.filter.category === '餐桌') {
-          return this.pageCouter('餐桌')
-        }
-        if (this.filter.category === 'L 型沙發') {
-          return this.pageCouter('L 型沙發')
-        }
-        if (this.filter.category === '一字型沙發') {
-          return this.pageCouter('一字型沙發')
-        }
-        if (this.filter.category === '全部') {
-          return this.pageCouter('全部')
-        }
+    getProduct (id) {
+      const vm = this
+      const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/product/${id}`
+      vm.status.loadingItem = id
+      this.$http.get(url).then((response) => {
+        vm.product = response.data.product
+        $('#productModal').modal('show')
+        console.log(response)
+        vm.status.loadingItem = ''
+      })
+    },
+    addtoCart (id, qty = 1) {
+      const vm = this
+      const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`
+      vm.status.loadingItem = id
+      const cart = {
+        product_id: id,
+        qty
       }
+      this.$http.post(url, { data: cart }).then((response) => {
+        console.log(response)
+        vm.status.loadingItem = ''
+        vm.getCart()
+        $('#productModal').modal('hide')
+      })
     },
-    created() {
-      this.getProducts();
-      this.getCart();
+    getCart () {
+      const vm = this
+      const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`
+      vm.isLoading = true
+      this.$http.get(url).then((response) => {
+        // vm.products = response.data.products;
+        vm.cart = response.data.data
+        console.log(response)
+        vm.isLoading = false
+      })
+    },
+    removeCartItem (id) {
+      const vm = this
+      const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart/${id}`
+      vm.isLoading = true
+      this.$http.delete(url).then((response) => {
+        vm.getCart()
+        console.log(response)
+        vm.isLoading = false
+      })
+    },
+    addCouponCode () {
+      const vm = this
+      const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/coupon`
+      const coupon = {
+        coode: vm.coupon_code
+      }
+      vm.isLoading = true
+      this.$http.post(url, { data: coupon }).then((response) => {
+        vm.getCart()
+        console.log(response)
+        vm.isLoading = false
+      })
+    },
+    createOrder () {
+      const vm = this
+      const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/order`
+      const order = vm.form
+      vm.isLoading = true
+      this.$http.post(url, { data: order }).then((response) => {
+        console.log('訂單已建立', response)
+        if (response.data.success) {
+          vm.$router.push(`/customer_checkout/${response.data.orderId}`)
+        }
+        vm.isLoading = false
+      })
+    },
+    pageCouter (categoryName) {
+      // API 抓回來的資料是從最舊道最新，預設要顯示最新，所以這邊把它反轉
+      const filterData = [...this.products].reverse()
+      // 價錢篩選
+      if (this.filter.price === '由高到低') {
+        filterData.sort((a, b) => b.price - a.price)
+      }
+      if (this.filter.price === '由低到高') {
+        filterData.sort((a, b) => a.price - b.price)
+      }
 
-      // 如果是從首頁的熱門商品分類連進來的話
-      if (this.$route.query.category) {
-        this.filter.category = this.$route.query.category
+      let totalProducts = filterData.filter(item => item.category === categoryName)
+      let totalProductsCounts = filterData.filter(item => item.category === categoryName).length
+      if (categoryName === '全部') {
+        totalProducts = filterData
+        totalProductsCounts = filterData.length
       }
+      const itemsPerPage = this.pagination.itemsPerPage
+      this.pagination.totalPages = Math.ceil(totalProductsCounts / itemsPerPage)
+      const offset = (this.pagination.currentPage - 1) * itemsPerPage
+      return totalProducts.slice(offset, offset + itemsPerPage)
     },
-  };
+    updatePage (emittedPage) {
+      this.pagination.currentPage = emittedPage
+      // 滾動到最上面
+      $('html,body').animate({ scrollTop: 0 }, 'slow')
+    }
+  },
+  computed: {
+    // eslint-disable-next-line vue/return-in-computed-property
+    filterCategory () {
+      if (this.filter.category === '單椅') {
+        return this.pageCouter('單椅')
+      }
+      if (this.filter.category === '茶几') {
+        return this.pageCouter('茶几')
+      }
+      if (this.filter.category === '電視櫃') {
+        return this.pageCouter('電視櫃')
+      }
+      if (this.filter.category === '餐桌') {
+        return this.pageCouter('餐桌')
+      }
+      if (this.filter.category === 'L 型沙發') {
+        return this.pageCouter('L 型沙發')
+      }
+      if (this.filter.category === '一字型沙發') {
+        return this.pageCouter('一字型沙發')
+      }
+      if (this.filter.category === '全部') {
+        return this.pageCouter('全部')
+      }
+    }
+  },
+  created () {
+    this.getProducts()
+    this.getCart()
+
+    // 如果是從首頁的熱門商品分類連進來的話
+    if (this.$route.query.category) {
+      this.filter.category = this.$route.query.category
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -289,7 +289,6 @@
   .price {
     color: #7ab3b3;
   }
-
 
   /* 產品分類及價錢分類小螢幕調整 */
   @media screen and (max-width: 450px) {

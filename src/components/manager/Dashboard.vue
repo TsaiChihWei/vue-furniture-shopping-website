@@ -11,22 +11,22 @@
       </div>
     </div>
   </template>
-  
-  <script>
-    import Navbar from './Navbar'
-    import Sidebar from './Sidebar'
-  
-    export default {
-      components: {
-        Sidebar,
-        Navbar,
-      },
-      created() {
-        const myCookie = document.cookie
-          .split('; ')
-          .find(row => row.startsWith('hexToken'))
-          .split('=')[1]
-        this.$http.defaults.headers.common.Authorization = myCookie
-      },
-    }
-  </script>
+
+<script>
+import Navbar from './Navbar'
+import Sidebar from './Sidebar'
+
+export default {
+  components: {
+    Sidebar,
+    Navbar
+  },
+  created () {
+    const myCookie = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('hexToken'))
+      .split('=')[1]
+    this.$http.defaults.headers.common.Authorization = myCookie
+  }
+}
+</script>

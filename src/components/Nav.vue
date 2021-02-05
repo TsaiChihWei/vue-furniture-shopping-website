@@ -22,12 +22,12 @@
 </template>
 
 <script>
-    export default {
-        name: 'Nav',
-        methods: {
+export default {
+  name: 'Nav',
+  methods: {
 
-        },
-    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

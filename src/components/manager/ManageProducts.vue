@@ -32,7 +32,7 @@
 
             </tbody>
         </table>
-   
+
         <ManagerPagination :pages="pagination" @emitPages="getProducts"></ManagerPagination>
         <!-- Modal -->
         <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -154,106 +154,105 @@
 </template>
 
 <script>
-    import $ from 'jquery'
-    import ManagerPagination from './ManagerPagination'
-    export default {
-        data() {
-            return {
-                products: [],
-                pagination: {},
-                tempProduct: {},
-                isNew: false,
-                isLoading: false,
-                status: {
-                    fileUploading: false,
-                },
-            }
-        },
-        components: {
-            ManagerPagination,
-        },
-        methods: {
-            getProducts(page = 1) {
-                const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/products/?page=${page}`
-                const vm = this
-                vm.isLoading = true
-                this.$http.get(api).then((response) => {
-                    console.log(response.data);
-                    vm.isLoading = false
-                    vm.products = response.data.products
-                    vm.pagination = response.data.pagination
-                })
-            },
-            openModal(isNew, item) {
-                if (isNew) {
-                    this.tempProduct = {}
-                    this.isNew = true
-                } else {
-                    this.tempProduct = Object.assign({}, item)
-                    // this.tempProduct = {...item}
-                    // this.tempProduct = item
-                    this.isNew = false
-                }
-                $('#productModal').modal('show')
-            },
-            updateProduct() {
-                let api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/product`
-                let httpMethod = 'post'
-                const vm = this
-                if (!vm.isNew) {
-                    api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/product/${vm.tempProduct.id}`
-                    httpMethod = 'put'
-                }
-                this.$http[httpMethod](api, { data: vm.tempProduct }).then((response) => {
-                    console.log(response.data);
-                    if (response.data.success) {
-                        $('#productModal').modal('hide')
-                        vm.getProducts()
-                    } else {
-                        $('#productModal').modal('hide')
-                        vm.getProducts()
-                        console.log('新增失敗！');
-                    }
-                })
-            },
-            openDeleteModal(item) {
-                this.tempProduct = { ...item }
-                $('#delProductModal').modal('show')
-            },
-            deleteProduct() {
-                const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/product/${this.tempProduct.id}`
-                this.$http.delete(api).then(response => {
-                    console.log(response.data);
-                })
-                $('#delProductModal').modal('hide')
-                this.getProducts()
-            },
-            uploadFile() {
-                const uploadedFile = this.$refs.files.files[0]
-                const formData = new FormData()
-                const vm = this
-                formData.append('file-to-upload', uploadedFile)
-                const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/upload`
-                vm.status.fileUploading = true
-                this.$http.post(api, formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                }).then(response => {
-                    console.log(response.data);
-                    vm.status.fileUploading = false
-                    if (response.data.success) {
-                        // vm.tempProduct.imageUrl = response.data.imageUrl
-                        vm.$set(vm.tempProduct, 'imageUrl', response.data.imageUrl)
-                    } else {
-                        this.$bus.$emit('message:push', response.data.message, 'danger')
-                    }
-                })
-            }
-        },
-        created() {
-            this.getProducts()
-
-        },
+import $ from 'jquery'
+import ManagerPagination from './ManagerPagination'
+export default {
+  data () {
+    return {
+      products: [],
+      pagination: {},
+      tempProduct: {},
+      isNew: false,
+      isLoading: false,
+      status: {
+        fileUploading: false
+      }
     }
+  },
+  components: {
+    ManagerPagination
+  },
+  methods: {
+    getProducts (page = 1) {
+      const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/products/?page=${page}`
+      const vm = this
+      vm.isLoading = true
+      this.$http.get(api).then((response) => {
+        console.log(response.data)
+        vm.isLoading = false
+        vm.products = response.data.products
+        vm.pagination = response.data.pagination
+      })
+    },
+    openModal (isNew, item) {
+      if (isNew) {
+        this.tempProduct = {}
+        this.isNew = true
+      } else {
+        this.tempProduct = Object.assign({}, item)
+        // this.tempProduct = {...item}
+        // this.tempProduct = item
+        this.isNew = false
+      }
+      $('#productModal').modal('show')
+    },
+    updateProduct () {
+      let api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/product`
+      let httpMethod = 'post'
+      const vm = this
+      if (!vm.isNew) {
+        api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/product/${vm.tempProduct.id}`
+        httpMethod = 'put'
+      }
+      this.$http[httpMethod](api, { data: vm.tempProduct }).then((response) => {
+        console.log(response.data)
+        if (response.data.success) {
+          $('#productModal').modal('hide')
+          vm.getProducts()
+        } else {
+          $('#productModal').modal('hide')
+          vm.getProducts()
+          console.log('新增失敗！')
+        }
+      })
+    },
+    openDeleteModal (item) {
+      this.tempProduct = { ...item }
+      $('#delProductModal').modal('show')
+    },
+    deleteProduct () {
+      const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/product/${this.tempProduct.id}`
+      this.$http.delete(api).then(response => {
+        console.log(response.data)
+      })
+      $('#delProductModal').modal('hide')
+      this.getProducts()
+    },
+    uploadFile () {
+      const uploadedFile = this.$refs.files.files[0]
+      const formData = new FormData()
+      const vm = this
+      formData.append('file-to-upload', uploadedFile)
+      const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/upload`
+      vm.status.fileUploading = true
+      this.$http.post(api, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(response => {
+        console.log(response.data)
+        vm.status.fileUploading = false
+        if (response.data.success) {
+          // vm.tempProduct.imageUrl = response.data.imageUrl
+          vm.$set(vm.tempProduct, 'imageUrl', response.data.imageUrl)
+        } else {
+          this.$bus.$emit('message:push', response.data.message, 'danger')
+        }
+      })
+    }
+  },
+  created () {
+    this.getProducts()
+  }
+}
 </script>
