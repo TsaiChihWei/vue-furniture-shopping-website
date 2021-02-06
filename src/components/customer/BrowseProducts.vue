@@ -10,11 +10,11 @@
           <select class="custom-select" v-model="filter.category">
             <option value="全部">全部</option>
             <option value="單椅">單椅</option>
-            <option value="L 型沙發">L 型沙發</option>
-            <option value="一字型沙發">一字型沙發</option>
-            <option value="餐桌">餐桌</option>
+            <option value="沙發">型沙發</option>
+            <option value="燈具">燈具</option>
+            <option value="書桌">書桌</option>
             <option value="茶几">茶几</option>
-            <option value="電視櫃">電視櫃</option>
+            <option value="門">門</option>
           </select>
         </li>
         <li>
@@ -219,17 +219,17 @@ export default {
       if (this.filter.category === '茶几') {
         return this.pageCouter('茶几')
       }
-      if (this.filter.category === '電視櫃') {
-        return this.pageCouter('電視櫃')
+      if (this.filter.category === '門') {
+        return this.pageCouter('門')
       }
-      if (this.filter.category === '餐桌') {
-        return this.pageCouter('餐桌')
+      if (this.filter.category === '書桌') {
+        return this.pageCouter('書桌')
       }
-      if (this.filter.category === 'L 型沙發') {
-        return this.pageCouter('L 型沙發')
+      if (this.filter.category === '沙發') {
+        return this.pageCouter('沙發')
       }
-      if (this.filter.category === '一字型沙發') {
-        return this.pageCouter('一字型沙發')
+      if (this.filter.category === '燈具') {
+        return this.pageCouter('燈具')
       }
       if (this.filter.category === '全部') {
         return this.pageCouter('全部')

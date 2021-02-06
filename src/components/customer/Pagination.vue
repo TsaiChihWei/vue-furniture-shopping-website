@@ -20,7 +20,7 @@
         </li>
       </ul>
     </nav>
-  </template>
+</template>
 
 <script>
 // :pages="{ 頁碼資訊 }"
