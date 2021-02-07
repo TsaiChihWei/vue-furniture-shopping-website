@@ -5,6 +5,7 @@ import Home from '@/components/Home'
 import Dashboard from '@/components/manager/Dashboard'
 import ManageProducts from '@/components/manager/ManageProducts'
 import BrowseProducts from '@/components/customer/BrowseProducts'
+import Orders from '@/components/manager/Orders'
 
 Vue.use(Router)
 
@@ -29,6 +30,11 @@ export default new Router({
           path: '',
           name: 'ManageProducts',
           component: ManageProducts
+        },
+        {
+          path: 'orders',
+          name: 'Orders',
+          component: Orders
         }
       ]
     }
