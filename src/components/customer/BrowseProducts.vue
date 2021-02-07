@@ -62,7 +62,7 @@
 
 <script>
 import Nav from '../Nav'
-import Pagination from './Pagination'
+import Pagination from '../Pagination'
 import $ from 'jquery'
 export default {
   components: {

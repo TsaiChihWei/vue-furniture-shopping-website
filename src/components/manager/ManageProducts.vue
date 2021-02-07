@@ -4,7 +4,21 @@
         <div class="text-right mt-2">
             <button class="btn btn-primary" @click="openModal(true)">建立新產品</button>
         </div>
-
+        <div class="d-flex mt-2">
+          <select class="custom-select" v-model="filter.category">
+                <option value="全部">全部</option>
+                <option value="單椅">單椅</option>
+                <option value="沙發">沙發</option>
+                <option value="書桌">書桌</option>
+                <option value="茶几">茶几</option>
+                <option value="燈具">燈具</option>
+                <option value="門">門</option>
+          </select>
+          <select class="custom-select" v-model="filter.date">
+              <option value="最新">最新</option>
+              <option value="最舊">最舊</option>
+          </select>
+        </div>
         <table class="table mt-2">
             <thead>
                 <th width="120px">分類</th>
@@ -15,7 +29,7 @@
                 <th width="120">編輯</th>
             </thead>
             <tbody>
-                <tr v-for="item in products" :key="item.id">
+                <tr v-for="item in filterCategory" :key="item.id">
                     <td>{{ item.category }}</td>
                     <td>{{ item.title }}</td>
                     <td>{{ item.origin_price | currency}}</td>
@@ -33,7 +47,7 @@
             </tbody>
         </table>
 
-        <ManagerPagination :pages="pagination" @emitPages="getProducts"></ManagerPagination>
+        <Pagination :pagination="pagination" @emitPages="updatePage"></Pagination>
         <!-- Modal -->
         <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
@@ -155,33 +169,40 @@
 
 <script>
 import $ from 'jquery'
-import ManagerPagination from './ManagerPagination'
+import Pagination from '../Pagination'
 export default {
   data () {
     return {
       products: [],
-      pagination: {},
       tempProduct: {},
       isNew: false,
       isLoading: false,
       status: {
         fileUploading: false
+      },
+      pagination: {
+        currentPage: 1,
+        itemsPerPage: 10,
+        totalPages: ''
+      },
+      filter: {
+        category: '全部',
+        date: '最新'
       }
     }
   },
   components: {
-    ManagerPagination
+    Pagination
   },
   methods: {
-    getProducts (page = 1) {
-      const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/products/?page=${page}`
+    getProducts () {
       const vm = this
+      const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/products/all`
       vm.isLoading = true
-      this.$http.get(api).then((response) => {
-        console.log(response.data)
-        vm.isLoading = false
+      this.$http.get(url).then((response) => {
         vm.products = response.data.products
-        vm.pagination = response.data.pagination
+        console.log(response)
+        vm.isLoading = false
       })
     },
     openModal (isNew, item) {
@@ -249,6 +270,53 @@ export default {
           this.$bus.$emit('message:push', response.data.message, 'danger')
         }
       })
+    },
+    pageCouter (categoryName) {
+      // API 抓回來的資料是從最舊道最新，預設要顯示最新，所以這邊把它反轉
+      const filterData = Object.values(this.products).reverse()
+      // 最舊篩選
+      if (this.filter.date === '最舊') {
+        filterData.reverse()
+      }
+      let totalProducts = filterData.filter(item => item.category === categoryName)
+      let totalProductsCounts = filterData.filter(item => item.category === categoryName).length
+      if (categoryName === '全部') {
+        totalProducts = filterData
+        totalProductsCounts = filterData.length
+      }
+      const itemsPerPage = this.pagination.itemsPerPage
+      this.pagination.totalPages = Math.ceil(totalProductsCounts / itemsPerPage)
+      const offset = (this.pagination.currentPage - 1) * itemsPerPage
+      return totalProducts.slice(offset, offset + itemsPerPage)
+    },
+    updatePage (emittedPage) {
+      this.pagination.currentPage = emittedPage
+    }
+  },
+  computed: {
+    // eslint-disable-next-line vue/return-in-computed-property
+    filterCategory () {
+      if (this.filter.category === '單椅') {
+        return this.pageCouter('單椅')
+      }
+      if (this.filter.category === '茶几') {
+        return this.pageCouter('茶几')
+      }
+      if (this.filter.category === '門') {
+        return this.pageCouter('門')
+      }
+      if (this.filter.category === '書桌') {
+        return this.pageCouter('書桌')
+      }
+      if (this.filter.category === '沙發') {
+        return this.pageCouter('沙發')
+      }
+      if (this.filter.category === '燈具') {
+        return this.pageCouter('燈具')
+      }
+      if (this.filter.category === '全部') {
+        return this.pageCouter('全部')
+      }
     }
   },
   created () {
@@ -256,3 +324,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.custom-select {
+  width: auto;
+}
+</style>
