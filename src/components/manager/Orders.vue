@@ -12,10 +12,9 @@
         </tr>
       </thead>
       <tbody>
-        <!-- eslint-disable-next-line vue/no-use-v-if-with-v-for -->
-        <tr v-for="(item, key) in sortOrder" :key="key" v-if="orders.length"
+        <tr v-for="(item, key) in sortOrder" :key="key"
           :class="{'text-secondary': !item.is_paid}">
-          <td>{{ item.create_at | date }}</td>
+          <td>{{ item.create_at | convertDate }}</td>
           <td><span v-text="item.user.email" v-if="item.user"></span></td>
           <td>
             <ul class="list-unstyled">
@@ -82,7 +81,6 @@ export default {
   },
   created () {
     this.getOrders()
-    console.log(process.env.APIPATH)
   }
 }
 </script>

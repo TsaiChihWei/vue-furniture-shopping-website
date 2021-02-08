@@ -14,11 +14,13 @@ import App from './App'
 import router from './router'
 import './bus'
 import currencyFilter from './filters/currency'
+import convertDate from './filters/convertDate'
 
 Vue.config.productionTip = false
 Vue.use(vueAxios, axios)
 Vue.component('loading', Loading)
 Vue.filter('currency', currencyFilter)
+Vue.filter('convertDate', convertDate)
 
 Object.keys(rules).forEach((rule) => {
   extend(rule, rules[rule])

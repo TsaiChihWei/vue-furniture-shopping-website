@@ -1,5 +1,6 @@
 <template>
   <div>
+    <loading :active.sync="isLoading"></loading>
     <Nav></Nav>
     <div class="banner">
     </div>
@@ -10,7 +11,7 @@
           <select class="custom-select" v-model="filter.category">
             <option value="全部">全部</option>
             <option value="單椅">單椅</option>
-            <option value="沙發">型沙發</option>
+            <option value="沙發">沙發</option>
             <option value="燈具">燈具</option>
             <option value="書桌">書桌</option>
             <option value="茶几">茶几</option>
@@ -28,10 +29,10 @@
     </div>
 
     <!-- 顯示產品 -->
-    <div class="row mt-4">
-      <div class="col-6 col-md-4 mb-3 col-lg-3" v-for="item in filterCategory" :key="item.id">
+    <div class="row">
+      <div class="col-6 col-md-4 mb-3 col-lg-2" v-for="item in filterCategory" :key="item.id">
         <div class="card text-center border-0 shadow-sm">
-          <div style="height: 150px; background-size: cover; background-position: center"
+          <div style="height: 150px; background-size: contain; background-position: center; background-repeat: no-repeat;"
             :style="{backgroundImage: `url(${item.imageUrl})`}">
           </div>
           <div class="card-body">
@@ -132,7 +133,6 @@ export default {
         console.log(response)
         vm.status.loadingItem = ''
         vm.getCart()
-        $('#productModal').modal('hide')
       })
     },
     getCart () {
@@ -273,6 +273,10 @@ export default {
 
   .nav-link {
     font-weight: bold;
+  }
+
+  .row {
+    margin: 30px 0 0 0;
   }
 
   /* 產品分類選單 */

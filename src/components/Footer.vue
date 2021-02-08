@@ -1,5 +1,5 @@
 <template>
-    <div class="mt-4 d-flex justify-content-center">
+    <div class="mt-4 d-flex justify-content-center mb-4">
         <div class="container row">
             <div class="footer-item col-12 col-md-4">
                 <img src="../assets/images/logo2.png" alt="logo">

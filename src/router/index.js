@@ -6,6 +6,7 @@ import Dashboard from '@/components/manager/Dashboard'
 import ManageProducts from '@/components/manager/ManageProducts'
 import BrowseProducts from '@/components/customer/BrowseProducts'
 import Orders from '@/components/manager/Orders'
+import Cart from '@/components/customer/Cart'
 
 Vue.use(Router)
 
@@ -20,6 +21,11 @@ export default new Router({
       path: '/products',
       name: 'BrowseProducts',
       component: BrowseProducts
+    },
+    {
+      path: '/cart',
+      name: 'Cart',
+      component: Cart
     },
     {
       path: '/admin',
