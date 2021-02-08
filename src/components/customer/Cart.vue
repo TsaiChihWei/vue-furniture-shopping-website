@@ -2,8 +2,11 @@
   <div>
     <loading :active.sync="isLoading"></loading>
     <Nav></Nav>
-    <div class="container">
-      <h3 class="page-title mt-5 mb-4">購物車內容</h3>
+    <div
+      class="container"
+      v-if="cart.carts !== undefined && cart.carts.length > 0"
+    >
+      <h3 class="page-title mt-5">購物車內容</h3>
       <!-- 購物車內容 -->
       <div
         class="row align-items-center"
@@ -14,7 +17,7 @@
           class="col-3"
           :style="{ backgroundImage: `url(${item.product.imageUrl})` }"
           style="
-            height: 150px;
+            height: 100px;
             background-size: contain;
             background-position: center;
             background-repeat: no-repeat;
@@ -55,7 +58,7 @@
         <div class="col-2">
           <button
             type="button"
-            class="btn btn-outline-danger btn-sm"
+            class="btn btn-outline-secondary btn-sm"
             @click="removeCartItem(item.id, item.qty)"
           >
             <i class="far fa-trash-alt"></i>
@@ -67,7 +70,7 @@
       <div class="input-group mb-3 input-group-sm mt-4">
         <input type="text" class="form-control" placeholder="請輸入優惠碼" />
         <div class="input-group-append">
-          <button class="btn btn-outline-secondary" type="button">
+          <button class="btn btn-danger coupon-input" type="button">
             套用優惠碼
           </button>
         </div>
@@ -75,17 +78,26 @@
 
       <!-- 總計 -->
       <div class="total-price">總計 {{ cartTotalPrice | currency }} 元</div>
+      <div class="text-right">
+      <a
+        href="#"
+        class="btn btn-danger go-checkout btn-lg mt-2"
+        @click.prevent="updateCart()"
+        >買單去</a
+      >
+      </div>
     </div>
-
-    <a href="#" class="btn btn-primary" @click.prevent="updateCart()">買單去</a>
+      <Warning></Warning>
   </div>
 </template>
 
 <script>
 import Nav from '../Nav'
+import Warning from '../Warning'
 export default {
   components: {
-    Nav
+    Nav,
+    Warning
   },
   data () {
     return {
@@ -193,6 +205,7 @@ export default {
 .row {
   margin: 0;
   border-bottom: 1px solid #dee2e6;
+  padding: 10px 0 10px;
 }
 .price {
   align-items: baseline;
@@ -209,5 +222,15 @@ export default {
   font-weight: bold;
   font-size: 24px;
   color: #dc3545;
+}
+.go-checkout {
+  font-weight: bold;
+}
+// 調整大於平板
+@media screen and (min-width: 768px) {
+  // 購物車 padding
+  .container {
+    padding: 0 150px;
+  }
 }
 </style>
