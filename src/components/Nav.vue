@@ -14,7 +14,8 @@
         <div class="collapse" id="collapseMenu">
             <nav class="nav text-center">
                 <routerLink class="nav-link" to="/home">首頁</routerLink>
-                <routerLink class="nav-link" to="/products">產品項目</routerLink>
+                <routerLink class="nav-link" to="/products">購物商場</routerLink>
+                <routerLink class="nav-link" to="/cart">購物車<i class="fas fa-shopping-cart ml-1"></i></routerLink>
                 <routerLink class="nav-link" to="/admin">後臺管理</routerLink>
             </nav>
         </div>

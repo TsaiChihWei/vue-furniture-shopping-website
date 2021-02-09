@@ -2,12 +2,14 @@
   <div>
     <loading :active.sync="isLoading"></loading>
     <Nav></Nav>
+    <div class="banner"></div>
+
+      <!-- 購物車內容 -->
     <div
       class="container"
       v-if="cart.carts !== undefined && cart.carts.length > 0"
     >
-      <h3 class="page-title mt-5">購物車內容</h3>
-      <!-- 購物車內容 -->
+      <h3 class="page-title mt-5"><i class="fas fa-shopping-cart mr-2"></i>購物車內容</h3>
       <div
         class="row align-items-center"
         v-for="item in cart.carts"
@@ -29,7 +31,9 @@
             <del class="original-price mr-1">{{
               item.product.origin_price | currency
             }}</del>
-            <div class="selling-price">{{ item.product.price | currency }}</div>
+            <div class="selling-price">
+              {{ item.product.price | currency }}
+            </div>
           </div>
           <div class="buyingNum input-group mt-2">
             <button
@@ -79,15 +83,24 @@
       <!-- 總計 -->
       <div class="total-price">總計 {{ cartTotalPrice | currency }} 元</div>
       <div class="text-right">
-      <a
-        href="#"
-        class="btn btn-danger go-checkout btn-lg mt-2"
-        @click.prevent="updateCart()"
-        >買單去</a
-      >
+        <a
+          href="#"
+          class="btn btn-danger go-checkout btn-lg mt-2"
+          @click.prevent="updateCart()"
+          >買單去</a
+        >
       </div>
     </div>
-      <Warning></Warning>
+
+    <!-- 如果購物車為空時 -->
+    <div class="container" v-if="cart.carts !== undefined && cart.carts.length === 0">
+      <h3 class="page-title mt-5"><i class="fas fa-shopping-cart mr-2"></i>購物車內容</h3>
+      <h5 class="reminder text-center mt-5 font-weight-bold">您的購物車是空的！再去逛逛吧？</h5>
+      <div class="text-center mt-5">
+      <routerLink class="btn btn-primary btn-lg" to="/products" style="color: #fff">購物商場<i class="ml-2 fas fa-angle-double-right"></i></routerLink>
+      </div>
+    </div>
+    <Warning></Warning>
   </div>
 </template>
 
@@ -197,6 +210,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.banner {
+  height: 200px;
+  background-image: url(../../assets/images/living_room.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 .page-title {
   font-weight: bold;
   border-bottom: 2px solid;
@@ -221,13 +241,20 @@ export default {
   text-align: right;
   font-weight: bold;
   font-size: 24px;
-  color: #dc3545;
 }
 .go-checkout {
   font-weight: bold;
 }
+// 如果購物車為空時
+.reminder {
+  color: #7ab3b3;
+}
 // 調整大於平板
 @media screen and (min-width: 768px) {
+  // banner
+  .banner {
+    height: 600px;
+  }
   // 購物車 padding
   .container {
     padding: 0 150px;
