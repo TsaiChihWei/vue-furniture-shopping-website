@@ -218,7 +218,6 @@ export default {
   background-repeat: no-repeat;
 }
 .page-title {
-  font-weight: bold;
   border-bottom: 2px solid;
   padding: 5px 0;
 }
@@ -242,6 +241,10 @@ export default {
   font-weight: bold;
   font-size: 24px;
 }
+.btn-danger {
+  background-color: #eb8489;
+  border-color: #eb8489;
+}
 .go-checkout {
   font-weight: bold;
 }
@@ -249,8 +252,8 @@ export default {
 .reminder {
   color: #7ab3b3;
 }
-// 調整大於平板
-@media screen and (min-width: 768px) {
+
+@media screen and (min-width: 996px) {
   // banner
   .banner {
     height: 600px;

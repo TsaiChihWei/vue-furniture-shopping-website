@@ -294,6 +294,10 @@ export default {
     color: #7ab3b3;
   }
 
+  .card {
+    outline: 1px solid rgba(0,0,0,0.125);
+  }
+
   /* 產品分類及價錢分類小螢幕調整 */
   @media screen and (max-width: 450px) {
     .navbar.container {
