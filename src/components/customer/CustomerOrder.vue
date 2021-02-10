@@ -56,19 +56,23 @@
           </div>
         </div>
       </div> -->
-      <table class="table table-striped">
+      <table class="table table-striped" style="border-top: 3px solid #7ab3b3;">
         <thead>
           <tr>
-            <th scope="col">訂單明細</th>
-            <th scope="col">數量</th>
-            <th scope="col">價格</th>
+            <th scope="col" colspan="3">訂單明細</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="item in cart.carts" :key="item.id">
-            <td>{{ item.product.title }}</td>
-            <td>x {{ item.qty }}</td>
-            <td>{{ item.final_total | currency }}</td>
+            <td :style="{ backgroundImage: `url(${item.product.imageUrl})` }" style="
+            height: 70px;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+          "
+          ></td>
+            <td class="align-middle">{{ item.product.title }}<br>x {{ item.qty }}</td>
+            <td class="align-middle text-right">{{ item.final_total | currency }}</td>
           </tr>
         </tbody>
         <tfoot>
@@ -247,9 +251,9 @@ export default {
   background-color: #f7f7f7;
   border-color: #7ab3b3a1;
 }
-.selling-price {
-  font-size: 18px;
-  font-weight: bold;
+.table {
+  width: 60%;
+  margin: 20px auto 0;
 }
 .total-price {
   background: #7ab3b3;

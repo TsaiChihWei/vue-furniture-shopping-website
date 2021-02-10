@@ -290,7 +290,7 @@ export default {
   }
   // 購物車 padding
   .container {
-    padding: 0 150px;
+    width: 50%;
   }
 }
 </style>
