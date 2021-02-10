@@ -161,6 +161,7 @@ export default {
       })
     },
     updateCart () {
+      this.isLoading = true
       const toDelArrId = []
       const toAddArr = []
       this.cart.carts.forEach((element) => {
@@ -180,6 +181,7 @@ export default {
         const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`
         this.$http.post(url, { data: element }).then((response) => {})
       })
+      this.isLoading = false
     },
     removeCartItem (id) {
       const vm = this
