@@ -86,8 +86,8 @@
       <div class="text-center my-5">
         <h5 class="font-weight-bold">請填寫訂單資料</h5>
       </div>
-      <ValidationObserver ref="form" class="row justify-content-center">
-        <form class="mx-auto col-12 col-md-8" @submit.prevent="creatOrder">
+      <Validation-observer ref="form" class="row justify-content-center" v-slot="{ invalid }">
+        <form class="mx-auto col-12 col-md-8" @submit.prevent="createOrder">
           <div class="form-row">
             <div class="form-group col-md-6">
               <validation-provider
@@ -174,12 +174,12 @@
             ></textarea>
           </div>
           <div class="text-right">
-            <button class="btn btn-primary font-weight-bold" disabled="invalid">
+            <button class="btn btn-primary font-weight-bold" :disabled="invalid">
               確認送出訂單
             </button>
           </div>
         </form>
-      </ValidationObserver>
+      </Validation-observer>
     </div>
   </div>
 </template>
@@ -213,6 +213,19 @@ export default {
       this.$http.get(url).then((response) => {
         console.log(response.data.data)
         vm.cart = response.data.data
+        vm.isLoading = false
+      })
+    },
+    createOrder () {
+      const vm = this
+      const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/order`
+      const order = vm.form
+      vm.isLoading = true
+      this.$http.post(url, { data: order }).then((response) => {
+        console.log('訂單已建立', response)
+        if (response.data.success) {
+          vm.$router.push(`/customer_order/${response.data.orderId}`)
+        }
         vm.isLoading = false
       })
     }
@@ -258,7 +271,7 @@ export default {
 .total-price {
   background: #7ab3b3;
   color: white;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
 }
 .btn-danger {

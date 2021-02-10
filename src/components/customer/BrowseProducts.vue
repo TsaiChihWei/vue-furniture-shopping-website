@@ -169,19 +169,6 @@ export default {
         vm.isLoading = false
       })
     },
-    createOrder () {
-      const vm = this
-      const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/order`
-      const order = vm.form
-      vm.isLoading = true
-      this.$http.post(url, { data: order }).then((response) => {
-        console.log('訂單已建立', response)
-        if (response.data.success) {
-          vm.$router.push(`/customer_checkout/${response.data.orderId}`)
-        }
-        vm.isLoading = false
-      })
-    },
     pageCouter (categoryName) {
       // API 抓回來的資料是從最舊道最新，預設要顯示最新，所以這邊把它反轉
       const filterData = [...this.products].reverse()

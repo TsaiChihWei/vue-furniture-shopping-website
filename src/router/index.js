@@ -8,6 +8,7 @@ import BrowseProducts from '@/components/customer/BrowseProducts'
 import Orders from '@/components/manager/Orders'
 import Cart from '@/components/customer/Cart'
 import CustomerOrder from '@/components/customer/CustomerOrder'
+import CustomerOrderID from '@/components/customer/CustomerOrderID'
 
 Vue.use(Router)
 
@@ -32,6 +33,11 @@ export default new Router({
       path: '/customer_order',
       name: 'CustomerOrder',
       component: CustomerOrder
+    },
+    {
+      path: '/customer_order/:orderId',
+      name: 'CustomerOrderID',
+      component: CustomerOrderID
     },
     {
       path: '/admin',
