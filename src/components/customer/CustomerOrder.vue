@@ -215,7 +215,6 @@ export default {
   },
   created () {
     this.getCart()
-    console.log('轉過來囉')
   }
 }
 </script>

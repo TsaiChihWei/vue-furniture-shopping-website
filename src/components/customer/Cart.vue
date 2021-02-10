@@ -4,12 +4,14 @@
     <Nav></Nav>
     <div class="banner"></div>
 
-      <!-- 購物車內容 -->
+    <!-- 購物車內容 -->
     <div
       class="container"
       v-if="cart.carts !== undefined && cart.carts.length > 0"
     >
-      <h3 class="page-title mt-5"><i class="fas fa-shopping-cart mr-2"></i>購物車內容</h3>
+      <h3 class="page-title mt-5">
+        <i class="fas fa-shopping-cart mr-2"></i>購物車內容
+      </h3>
       <div
         class="row align-items-center"
         v-for="item in cart.carts"
@@ -93,11 +95,23 @@
     </div>
 
     <!-- 如果購物車為空時 -->
-    <div class="container" v-if="cart.carts !== undefined && cart.carts.length === 0">
-      <h3 class="page-title mt-5"><i class="fas fa-shopping-cart mr-2"></i>購物車內容</h3>
-      <h5 class="reminder text-center mt-5 font-weight-bold">您的購物車是空的！再去逛逛吧？</h5>
+    <div
+      class="container"
+      v-if="cart.carts !== undefined && cart.carts.length === 0"
+    >
+      <h3 class="page-title mt-5">
+        <i class="fas fa-shopping-cart mr-2"></i>購物車內容
+      </h3>
+      <h5 class="reminder text-center mt-5 font-weight-bold">
+        您的購物車是空的！再去逛逛吧？
+      </h5>
       <div class="text-center mt-5">
-      <routerLink class="btn btn-primary btn-lg" to="/products" style="color: #fff">購物商場<i class="ml-2 fas fa-angle-double-right"></i></routerLink>
+        <routerLink
+          class="btn btn-primary btn-lg"
+          to="/products"
+          style="color: #fff"
+          >購物商場<i class="ml-2 fas fa-angle-double-right"></i
+        ></routerLink>
       </div>
     </div>
     <Warning></Warning>
@@ -164,6 +178,8 @@ export default {
       this.isLoading = true
       const toDelArrId = []
       const toAddArr = []
+      const allDelAjex = []
+      const allAddAjex = []
       this.cart.carts.forEach((element) => {
         toDelArrId.push(element.id)
         toAddArr.push({
@@ -171,17 +187,29 @@ export default {
           qty: element.qty
         })
       })
-      // 刪除購物車的所有項目
       toDelArrId.forEach((element) => {
         const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart/${element}`
-        this.$http.delete(url).then((response) => {})
+        allDelAjex.push(new Promise((resolve) => {
+          resolve(this.$http.delete(url).then((response) => {}))
+        }))
       })
-      // 將更新過後的購物車項目重新加回
-      toAddArr.forEach((element) => {
-        const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`
-        this.$http.post(url, { data: element }).then((response) => {})
-      })
-      this.isLoading = false
+
+      // 刪除購物車的所有項目
+      Promise.all(allDelAjex).then(res => {
+        console.log('allDelAjex 成功')
+        // 將更新過後的購物車項目重新加回
+        toAddArr.forEach((element) => {
+          const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`
+          allAddAjex.push(new Promise(resolve => {
+            resolve(this.$http.post(url, { data: element }).then((response) => {}))
+          }))
+        })
+        Promise.all(allAddAjex).then(res => {
+          console.log('allAddAjex 成功')
+          this.isLoading = false
+          this.$router.push('/customer_order')
+        })
+      }).catch(err => console.log(err, 'allDelAjex 發送失敗'))
     },
     removeCartItem (id) {
       const vm = this
