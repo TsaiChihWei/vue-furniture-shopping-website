@@ -24,38 +24,6 @@
         </div>
       </div>
 
-      <!-- <div
-        class="row align-items-center"
-        v-for="item in cart.carts"
-        :key="item.id"
-      >
-        <div
-          class="col-4"
-          :style="{ backgroundImage: `url(${item.product.imageUrl})` }"
-          style="
-            height: 100px;
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-          "
-        ></div>
-        <div class="col-8">
-          <div class="title">{{ item.product.title }}</div>
-          <div class="price d-flex mt-2">
-            <div class="selling-price">
-              {{ item.product.price | currency }}
-            </div>
-          </div>
-          <div class="buyingNum input-group mt-2">
-            <input
-              class="text-center"
-              disabled
-              style="width: 35px"
-              :value="`x ${item.qty}`"
-            />
-          </div>
-        </div>
-      </div> -->
       <table class="table table-striped" style="border-top: 3px solid #7ab3b3">
         <thead>
           <tr>
@@ -194,14 +162,17 @@
         </form>
       </Validation-observer>
     </div>
+    <Warning></Warning>
   </div>
 </template>
 
 <script>
 import Nav from '../Nav'
+import Warning from '../Warning'
 export default {
   components: {
-    Nav
+    Nav,
+    Warning
   },
   data () {
     return {
@@ -227,6 +198,10 @@ export default {
         console.log(response.data.data)
         vm.cart = response.data.data
         vm.isLoading = false
+        // 如果沒有商品又跳離此頁面
+        if (vm.cart.final_total === 0) {
+          vm.$router.push('/home')
+        }
       })
     },
     createOrder () {

@@ -37,8 +37,9 @@ export default {
     }
 
     .nav-link {
+        color: #000;
         font-size: 18px;
-        font-weight: bold;
+        // font-weight: bold;
         transition: .3s all;
     }
     .nav-link:hover {
