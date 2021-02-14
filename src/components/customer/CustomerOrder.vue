@@ -7,7 +7,7 @@
     <div class="container">
       <h3 class="page-title mt-5"><i class="far fa-edit mr-2"></i>建立訂單</h3>
       <div class="process">
-        <div role="alert" class="alert alert-success rounded-pill text-center">
+        <div role="alert" class="alert alert-info rounded-pill text-center">
           1. 填寫訂單
         </div>
         <div
@@ -198,7 +198,7 @@ export default {
         console.log(response.data.data)
         vm.cart = response.data.data
         vm.isLoading = false
-        // 如果沒有商品又跳離此頁面
+        // 如果沒有商品就跳離此頁面
         if (vm.cart.final_total === 0) {
           vm.$router.push('/home')
         }
@@ -243,11 +243,7 @@ export default {
 .step-3 {
   display: none;
 }
-// .alert-success {
-//   color: #000;
-//   background-color: #7ab3b3a1;
-//   border-color: #7ab3b3a1;
-// }
+
 .alert-gray {
   background-color: #f7f7f7;
   border-color: #f7f7f7;

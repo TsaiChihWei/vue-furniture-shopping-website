@@ -7,12 +7,15 @@
     <div class="container">
       <h3 class="page-title mt-5"><i class="far fa-edit mr-2"></i>建立訂單</h3>
       <div class="process">
-        <div role="alert" class="alert step-1 alert-success rounded-pill text-center">
+        <div
+          role="alert"
+          class="alert step-1 alert-info rounded-pill text-center"
+        >
           1. 填寫訂單
         </div>
         <div
           role="alert"
-          class="alert step-2 alert-success rounded-pill text-center"
+          class="alert step-2 alert-info rounded-pill text-center"
         >
           2. 確認付款
         </div>
@@ -75,7 +78,7 @@
 
       <div class="text-center">
         <button
-          class="btn btn-primary btn-lg font-weight-bold"
+          class="btn btn-info btn-lg font-weight-bold"
           style="color: #fff"
         >
           結帳
@@ -107,8 +110,13 @@ export default {
       this.isLoading = true
       const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/order/${this.orderId}`
       this.$http.get(url).then((res) => {
-        this.order = res.data.order
-        this.isLoading = false
+        // 如果沒有這筆訂單跳轉頁面回購物商場
+        if (!res.data.order) {
+          this.$router.push('/products')
+        } else {
+          this.order = res.data.order
+          this.isLoading = false
+        }
       })
     }
   },
@@ -138,11 +146,7 @@ export default {
 .step-3 {
   display: none;
 }
-// .alert-success {
-//   color: #000;
-//   background-color: #7ab3b3a1;
-//   border-color: #7ab3b3a1;
-// }
+
 .alert-gray {
   background-color: #f7f7f7;
   border-color: #f7f7f7;

@@ -76,7 +76,7 @@
       <div class="input-group mb-3 input-group-sm mt-4">
         <input type="text" class="form-control" placeholder="請輸入優惠碼" />
         <div class="input-group-append">
-          <button class="btn btn-danger coupon-input" type="button">
+          <button class="btn btn-info coupon-input" type="button">
             套用優惠碼
           </button>
         </div>
@@ -87,7 +87,7 @@
       <div class="text-right">
         <a
           href="#"
-          class="btn btn-danger go-checkout btn-lg mt-2"
+          class="btn btn-info go-checkout btn-lg mt-2"
           @click.prevent="updateCart()"
           >買單去</a
         >
@@ -271,10 +271,10 @@ export default {
   font-weight: bold;
   font-size: 24px;
 }
-.btn-danger {
-  background-color: #eb8489;
-  border-color: #eb8489;
-}
+// .btn-danger {
+//   background-color: #eb8489;
+//   border-color: #eb8489;
+// }
 .go-checkout {
   font-weight: bold;
 }
