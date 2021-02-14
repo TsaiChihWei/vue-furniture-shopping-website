@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Home from '@/components/Home'
+import Login from '@/components/manager/Login'
 import Dashboard from '@/components/manager/Dashboard'
 import ManageProducts from '@/components/manager/ManageProducts'
 import BrowseProducts from '@/components/customer/BrowseProducts'
@@ -14,6 +15,11 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },
     {
       path: '/home',
       name: 'Home',
@@ -39,6 +45,7 @@ export default new Router({
       name: 'CustomerOrderID',
       component: CustomerOrderID
     },
+    // 後臺
     {
       path: '/admin',
       // name: 'Dashboard',
@@ -47,12 +54,14 @@ export default new Router({
         {
           path: '',
           name: 'ManageProducts',
-          component: ManageProducts
+          component: ManageProducts,
+          meta: { requiresAuth: true }
         },
         {
           path: 'orders',
           name: 'Orders',
-          component: Orders
+          component: Orders,
+          meta: { requiresAuth: true }
         }
       ]
     }
