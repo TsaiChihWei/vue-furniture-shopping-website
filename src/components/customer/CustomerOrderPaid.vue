@@ -21,69 +21,57 @@
         </div>
         <div
           role="alert"
-          class="alert step-3 alert-gray rounded-pill text-center"
+          class="alert step-3 alert-info rounded-pill text-center"
         >
           3. 訂單完成
         </div>
       </div>
 
-      <table class="table" style="border-top: 3px solid #7ab3b3">
-        <thead class="thead-light">
+      <table class="table table-borderless">
+        <thead>
           <tr>
-            <th scope="col" colspan="2">訂單資料</th>
+            <th
+              scope="col"
+              colspan="2"
+              style="text-align: center; font-size: 80px"
+              class="text-success"
+            >
+              <i class="far fa-check-circle"></i>
+            </th>
+          </tr>
+          <tr>
+            <th
+              scope="col"
+              colspan="2"
+              style="text-align: center; font-size: 24px"
+              class="text-success"
+            >
+              付款成功，歡迎您再度光臨！
+            </th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>訂購日期</td>
+            <td style="font-weight: bold; font-size: 18px">訂購日期</td>
             <td>{{ order.create_at | convertDate }}</td>
           </tr>
           <tr>
-            <td>訂單編號</td>
+            <td style="font-weight: bold; font-size: 18px">訂單編號</td>
             <td>{{ order.id }}</td>
           </tr>
           <tr>
-            <td>金額</td>
+            <td style="font-weight: bold; font-size: 18px">金額</td>
             <td>{{ order.total | currency }}</td>
           </tr>
         </tbody>
-        <thead class="thead-light" style="border-top: 3px solid #7ab3b3">
-          <tr>
-            <th scope="col" colspan="2">訂購人資料</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>訂購人姓名</td>
-            <td v-if="order.user">{{ order.user.name }}</td>
-          </tr>
-          <tr>
-            <td>訂購人電話</td>
-            <td v-if="order.user">{{ order.user.tel }}</td>
-          </tr>
-          <tr>
-            <td>電子信箱</td>
-            <td v-if="order.user">{{ order.user.email }}</td>
-          </tr>
-          <tr>
-            <td>收件地址</td>
-            <td v-if="order.user">{{ order.user.address }}</td>
-          </tr>
-          <tr>
-            <td>備註</td>
-            <td v-if="order.user">{{ order.message }}</td>
-          </tr>
-        </tbody>
       </table>
-
-      <div class="text-center">
-        <button
-          class="btn btn-info btn-lg font-weight-bold"
+      <div class="text-center mt-5">
+        <routerLink
+          class="btn btn-info"
+          to="/products"
           style="color: #fff"
-          @click.prevent="payOrder"
-        >
-          結帳
-        </button>
+          >繼續購物<i class="ml-2 fas fa-angle-double-right"></i
+        ></routerLink>
       </div>
     </div>
     <Warning></Warning>
@@ -118,20 +106,6 @@ export default {
           this.order = res.data.order
           this.isLoading = false
         }
-        // 如果已經付款就跳轉到完成訂單頁面
-        if (res.data.order.is_paid) {
-          this.$router.push(`/customer_order_paid/${this.orderId}`)
-        }
-      })
-    },
-    payOrder () {
-      this.isLoading = true
-      const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/pay/${this.orderId}`
-      this.$http.post(url).then((res) => {
-        if (res.data.success) {
-          this.isLoading = false
-          console.log('付款成功')
-        }
       })
     }
   },
@@ -158,25 +132,10 @@ export default {
   font-size: 16px;
 }
 .step-1,
-.step-3 {
+.step-2 {
   display: none;
 }
 
-.alert-gray {
-  background-color: #f7f7f7;
-  border-color: #f7f7f7;
-}
-
-.total-price {
-  background: #7ab3b3;
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-}
-.btn-danger {
-  background-color: #eb8489;
-  border-color: #eb8489;
-}
 @media screen and (min-width: 768px) {
   .process {
     display: flex;
@@ -196,8 +155,8 @@ export default {
     height: 600px;
   }
   .table {
-    width: 60%;
-    margin: 20px auto 0;
+    width: 40%;
+    margin: 0 auto 0;
   }
 }
 </style>
