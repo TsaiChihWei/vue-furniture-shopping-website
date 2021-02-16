@@ -1,10 +1,9 @@
 <template>
   <div>
     <loading :active.sync="isLoading"></loading>
-    <Nav></Nav>
+    <Nav :cartCount="cartNum"></Nav>
     <AlertMessage></AlertMessage>
-    <div class="banner">
-    </div>
+    <div class="banner"></div>
     <div class="navbar container">
       <div class="title text-center">產品項目：{{ filter.category }}</div>
       <ul class="nav nav-pills">
@@ -31,31 +30,54 @@
 
     <!-- 顯示產品 -->
     <div class="row">
-      <div class="col-6 col-md-4 mb-3 col-lg-2" v-for="item in filterCategory" :key="item.id">
-        <div class="card text-center border-0 shadow-sm" @click="goToProduct(item.id)">
-          <div style="height: 150px; background-size: contain; background-position: center; background-repeat: no-repeat;"
-            :style="{backgroundImage: `url(${item.imageUrl})`}">
-          </div>
+      <div
+        class="col-6 col-md-4 mb-3 col-lg-2"
+        v-for="item in filterCategory"
+        :key="item.id"
+      >
+        <div
+          class="card text-center border-0 shadow-sm"
+          @click="goToProduct(item.id)"
+        >
+          <div
+            style="
+              height: 150px;
+              background-size: contain;
+              background-position: center;
+              background-repeat: no-repeat;
+            "
+            :style="{ backgroundImage: `url(${item.imageUrl})` }"
+          ></div>
           <div class="card-body">
             <h5 class="card-title">
               {{ item.title }}
             </h5>
             <p class="card-text">{{ item.content }}</p>
             <div class="d-flex justify-content-between align-items-baseline">
-              <div class="h5" v-if="!item.price">{{ item.origin_price }} 元</div>
-              <del class="h6 original-price" v-if="item.price">原價 {{ item.origin_price }} 元</del>
-              <div class="h5 price" v-if="item.price"> {{ item.price }} 元</div>
+              <div class="h5" v-if="!item.price">
+                {{ item.origin_price }} 元
+              </div>
+              <del class="h6 original-price" v-if="item.price"
+                >原價 {{ item.origin_price }} 元</del
+              >
+              <div class="h5 price" v-if="item.price">{{ item.price }} 元</div>
             </div>
           </div>
           <div class="card-footer">
-            <a type="button" class="btn btn-outline-primary btn-sm ml-auto" @click.stop="addtoCart(item.id)">
-              <i class="fas fa-spinner fa-spin" v-if="status.loadingItem === item.id"></i>
+            <a
+              type="button"
+              class="btn btn-outline-primary btn-sm ml-auto"
+              @click.stop="addtoCart(item.id)"
+            >
+              <i
+                class="fas fa-spinner fa-spin"
+                v-if="status.loadingItem === item.id"
+              ></i>
               加到購物車
             </a>
           </div>
         </div>
       </div>
-
     </div>
 
     <Pagination :pagination="pagination" @emitPages="updatePage"></Pagination>
@@ -84,7 +106,7 @@ export default {
         category: '全部',
         price: '最新'
       },
-      cart: {},
+      cartNum: {},
       isLoading: false,
       form: {
         user: {
@@ -133,35 +155,33 @@ export default {
       const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`
       vm.isLoading = true
       this.$http.get(url).then((response) => {
-        // vm.products = response.data.products;
-        vm.cart = response.data.data
-        console.log(response)
+        vm.cartNum = response.data.data.carts.length
         vm.isLoading = false
       })
     },
-    removeCartItem (id) {
-      const vm = this
-      const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart/${id}`
-      vm.isLoading = true
-      this.$http.delete(url).then((response) => {
-        vm.getCart()
-        console.log(response)
-        vm.isLoading = false
-      })
-    },
-    addCouponCode () {
-      const vm = this
-      const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/coupon`
-      const coupon = {
-        coode: vm.coupon_code
-      }
-      vm.isLoading = true
-      this.$http.post(url, { data: coupon }).then((response) => {
-        vm.getCart()
-        console.log(response)
-        vm.isLoading = false
-      })
-    },
+    // removeCartItem (id) {
+    //   const vm = this
+    //   const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart/${id}`
+    //   vm.isLoading = true
+    //   this.$http.delete(url).then((response) => {
+    //     vm.getCart()
+    //     console.log(response)
+    //     vm.isLoading = false
+    //   })
+    // },
+    // addCouponCode () {
+    //   const vm = this
+    //   const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/coupon`
+    //   const coupon = {
+    //     coode: vm.coupon_code
+    //   }
+    //   vm.isLoading = true
+    //   this.$http.post(url, { data: coupon }).then((response) => {
+    //     vm.getCart()
+    //     console.log(response)
+    //     vm.isLoading = false
+    //   })
+    // },
     pageCouter (categoryName) {
       // API 抓回來的資料是從最舊道最新，預設要顯示最新，所以這邊把它反轉
       const filterData = [...this.products].reverse()
@@ -173,14 +193,20 @@ export default {
         filterData.sort((a, b) => a.price - b.price)
       }
 
-      let totalProducts = filterData.filter(item => item.category === categoryName)
-      let totalProductsCounts = filterData.filter(item => item.category === categoryName).length
+      let totalProducts = filterData.filter(
+        (item) => item.category === categoryName
+      )
+      let totalProductsCounts = filterData.filter(
+        (item) => item.category === categoryName
+      ).length
       if (categoryName === '全部') {
         totalProducts = filterData
         totalProductsCounts = filterData.length
       }
       const itemsPerPage = this.pagination.itemsPerPage
-      this.pagination.totalPages = Math.ceil(totalProductsCounts / itemsPerPage)
+      this.pagination.totalPages = Math.ceil(
+        totalProductsCounts / itemsPerPage
+      )
       const offset = (this.pagination.currentPage - 1) * itemsPerPage
       return totalProducts.slice(offset, offset + itemsPerPage)
     },
@@ -232,69 +258,69 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .banner {
-    height: 150px;
-    background-image: url(../../assets/images/banner2.jpg);
-    background-size: cover;
-    background-position: center bottom;
+.banner {
+  height: 150px;
+  background-image: url(../../assets/images/banner2.jpg);
+  background-size: cover;
+  background-position: center bottom;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.title {
+  color: #7ab3b3;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.nav {
+  justify-content: flex-end;
+}
+
+.nav-link {
+  font-weight: bold;
+}
+
+.row {
+  margin: 30px 0 0 0;
+}
+
+/* 產品分類選單 */
+.custom-select {
+  font-weight: bold;
+  color: #7ab3b3;
+}
+
+/* 產品列表 */
+.original-price {
+  color: #aaaaaa;
+}
+
+.price {
+  color: #7ab3b3;
+}
+
+.card {
+  outline: 1px solid rgba(0, 0, 0, 0.125);
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.1);
+    transition: 0.6s, all;
+  }
+}
+
+/* 產品分類及價錢分類小螢幕調整 */
+@media screen and (max-width: 450px) {
+  .navbar.container {
+    flex-direction: column;
   }
 
-  .navbar {
-    display: flex;
-    justify-content: space-between;
+  .nav.nav-pills {
+    margin-bottom: 10px;
+    order: -1;
   }
-
-  .title {
-    color: #7ab3b3;
-    font-size: 18px;
-    font-weight: bold;
-  }
-
-  .nav {
-    justify-content: flex-end;
-  }
-
-  .nav-link {
-    font-weight: bold;
-  }
-
-  .row {
-    margin: 30px 0 0 0;
-  }
-
-  /* 產品分類選單 */
-  .custom-select {
-    font-weight: bold;
-    color: #7ab3b3;
-  }
-
-  /* 產品列表 */
-  .original-price {
-    color: #aaaaaa;
-  }
-
-  .price {
-    color: #7ab3b3;
-  }
-
-  .card {
-    outline: 1px solid rgba(0,0,0,0.125);
-    cursor: pointer;
-    &:hover {
-      transform: scale(1.1);
-      transition: .6s, all;
-    }
-  }
-
-  /* 產品分類及價錢分類小螢幕調整 */
-  @media screen and (max-width: 450px) {
-    .navbar.container {
-      flex-direction: column;
-    }
-
-    .nav.nav-pills {
-      margin-bottom: 10px;
-      order: -1;
-    }
-  }
+}
 </style>

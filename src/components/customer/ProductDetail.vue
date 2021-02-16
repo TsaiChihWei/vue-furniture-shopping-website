@@ -1,7 +1,7 @@
 <template>
   <div>
     <loading :active.sync="isLoading"></loading>
-    <Nav></Nav>
+    <Nav :cartCount="cartNum"></Nav>
     <AlertMessage></AlertMessage>
     <div class="banner"></div>
     <div class="container row">
@@ -94,6 +94,7 @@ export default {
       productId: '',
       product: {},
       productQty: 1,
+      cartNum: {},
       isLoading: false
     }
   },
@@ -127,13 +128,24 @@ export default {
       this.$http.post(url, { data: cart }).then((response) => {
         console.log(response)
         vm.isLoading = false
+        vm.getCart()
         this.$bus.$emit('message:push', '商品已加入購物車！', 'info')
+      })
+    },
+    getCart () {
+      const vm = this
+      const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`
+      vm.isLoading = true
+      this.$http.get(url).then((response) => {
+        vm.cartNum = response.data.data.carts.length
+        vm.isLoading = false
       })
     }
   },
   created () {
     this.productId = this.$route.params.productId
     this.getProduct()
+    this.getCart()
   }
 }
 </script>

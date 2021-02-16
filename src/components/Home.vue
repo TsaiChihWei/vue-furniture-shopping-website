@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Nav></Nav>
+    <Nav :cartCount="cartNum"></Nav>
     <Main></Main>
     <Footer></Footer>
     <Warning></Warning>
@@ -23,8 +23,22 @@ export default {
   name: 'Home',
   data () {
     return {
-
+      cartNum: ''
     }
+  },
+  methods: {
+    getCart () {
+      const vm = this
+      const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`
+      vm.isLoading = true
+      this.$http.get(url).then((response) => {
+        vm.cartNum = response.data.data.carts.length
+        vm.isLoading = false
+      })
+    }
+  },
+  created () {
+    this.getCart()
   }
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <loading :active.sync="isLoading"></loading>
-    <Nav></Nav>
+    <Nav :cartCount="cartNum"></Nav>
     <div class="banner"></div>
 
     <!-- 購物車內容 -->
@@ -133,6 +133,7 @@ export default {
     return {
       isLoading: false,
       cart: {},
+      cartNum: '',
       form: {
         user: {
           name: '',
@@ -152,6 +153,7 @@ export default {
       vm.isLoading = true
       this.$http.get(url).then((response) => {
         vm.cart = response.data.data
+        vm.cartNum = response.data.data.carts.length
         vm.isLoading = false
       })
     },
@@ -286,12 +288,6 @@ export default {
   margin-top: 10px;
   font-weight: 500;
 }
-// .self-total {
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   flex-grow: 1;
-// }
 
 .go-checkout {
   font-weight: bold;
