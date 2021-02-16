@@ -87,9 +87,18 @@
 
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label for="category">分類</label>
+                                        <!-- <label for="category">分類</label>
                                         <input v-model="tempProduct.category" type="text" class="form-control"
-                                            id="category" placeholder="請輸入分類">
+                                            id="category" placeholder="請輸入分類"> -->
+                                            <label for="category">分類</label>
+                                            <select v-model="tempProduct.category" class="form-control" id="category">
+                                              <option value="單椅">單椅</option>
+                                              <option value="沙發">沙發</option>
+                                              <option value="茶几">茶几</option>
+                                              <option value="燈具">燈具</option>
+                                              <option value="書桌">書桌</option>
+                                              <option value="門">門</option>
+                                            </select>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="price">單位</label>
@@ -200,9 +209,13 @@ export default {
       const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/products/all`
       vm.isLoading = true
       this.$http.get(url).then((response) => {
-        console.log(response)
-        vm.products = response.data.products
-        vm.isLoading = false
+        // console.log(response)
+        if (response.data.success) {
+          vm.products = response.data.products
+          vm.isLoading = false
+        } else {
+          this.$router.push('/login')
+        }
       })
     },
     openModal (isNew, item) {

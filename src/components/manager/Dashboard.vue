@@ -1,16 +1,16 @@
 <template>
-    <div>
-      <Navbar></Navbar>
-      <AlertMessage></AlertMessage>
-      <div class="container-fluid">
-        <div class="row">
-          <Sidebar></Sidebar>
-          <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-            <router-view></router-view>
-          </main>
-        </div>
+  <div>
+    <Navbar></Navbar>
+    <AlertMessage></AlertMessage>
+    <div class="container-fluid">
+      <div class="row">
+        <Sidebar></Sidebar>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+          <router-view></router-view>
+        </main>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -27,7 +27,7 @@ export default {
   created () {
     const myCookie = document.cookie
       .split('; ')
-      .find(row => row.startsWith('hexToken'))
+      .find((row) => row.startsWith('hexToken'))
       .split('=')[1]
     this.$http.defaults.headers.common.Authorization = myCookie
   }

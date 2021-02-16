@@ -52,7 +52,6 @@
             <h5 class="card-title">
               {{ item.title }}
             </h5>
-            <p class="card-text">{{ item.content }}</p>
             <div class="d-flex justify-content-between align-items-baseline">
               <div class="h5" v-if="!item.price">
                 {{ item.origin_price }} 元
@@ -81,6 +80,7 @@
     </div>
 
     <Pagination :pagination="pagination" @emitPages="updatePage"></Pagination>
+    <Warning></Warning>
   </div>
 </template>
 
@@ -88,12 +88,14 @@
 import Nav from '../Nav'
 import Pagination from '../Pagination'
 import AlertMessage from '../AlertMessage'
+import Warning from '../Warning'
 import $ from 'jquery'
 export default {
   components: {
     Nav,
     Pagination,
-    AlertMessage
+    AlertMessage,
+    Warning
   },
   data () {
     return {
@@ -131,7 +133,7 @@ export default {
       vm.isLoading = true
       this.$http.get(url).then((response) => {
         vm.products = response.data.products
-        console.log(response)
+        vm.products = vm.products.filter(ele => ele.is_enabled === 1)
         vm.isLoading = false
       })
     },
@@ -159,32 +161,11 @@ export default {
         vm.isLoading = false
       })
     },
-    // removeCartItem (id) {
-    //   const vm = this
-    //   const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart/${id}`
-    //   vm.isLoading = true
-    //   this.$http.delete(url).then((response) => {
-    //     vm.getCart()
-    //     console.log(response)
-    //     vm.isLoading = false
-    //   })
-    // },
-    // addCouponCode () {
-    //   const vm = this
-    //   const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/coupon`
-    //   const coupon = {
-    //     coode: vm.coupon_code
-    //   }
-    //   vm.isLoading = true
-    //   this.$http.post(url, { data: coupon }).then((response) => {
-    //     vm.getCart()
-    //     console.log(response)
-    //     vm.isLoading = false
-    //   })
-    // },
+
     pageCouter (categoryName) {
       // API 抓回來的資料是從最舊道最新，預設要顯示最新，所以這邊把它反轉
       const filterData = [...this.products].reverse()
+
       // 價錢篩選
       if (this.filter.price === '由高到低') {
         filterData.sort((a, b) => b.price - a.price)
