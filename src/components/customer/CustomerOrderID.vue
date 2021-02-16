@@ -131,6 +131,7 @@ export default {
         if (res.data.success) {
           this.isLoading = false
           console.log('付款成功')
+          this.$router.push(`/customer_order_paid/${this.orderId}`)
         }
       })
     }
