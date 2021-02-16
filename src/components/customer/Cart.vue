@@ -40,7 +40,6 @@
           <div class="buyingNum input-group mt-2">
             <button
               class="btn btn-outline-primary btn-sm"
-              :attribute="{ disabled: item.qty === 1 }"
               style="width: 35px; font-weight: bold"
               @click="adjustQty(false, item.id)"
             >
@@ -60,7 +59,11 @@
               +
             </button>
           </div>
+          <div class="self-total text-info" v-if="item.qty>1">
+            小計：{{ (item.qty * item.product.price) | currency }}
+          </div>
         </div>
+
         <div class="col-2">
           <button
             type="button"
@@ -189,27 +192,35 @@ export default {
       })
       toDelArrId.forEach((element) => {
         const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart/${element}`
-        allDelAjex.push(new Promise((resolve) => {
-          resolve(this.$http.delete(url).then((response) => {}))
-        }))
+        allDelAjex.push(
+          new Promise((resolve) => {
+            resolve(this.$http.delete(url).then((response) => {}))
+          })
+        )
       })
 
       // 刪除購物車的所有項目
-      Promise.all(allDelAjex).then(res => {
-        console.log('allDelAjex 成功')
-        // 將更新過後的購物車項目重新加回
-        toAddArr.forEach((element) => {
-          const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`
-          allAddAjex.push(new Promise(resolve => {
-            resolve(this.$http.post(url, { data: element }).then((response) => {}))
-          }))
+      Promise.all(allDelAjex)
+        .then((res) => {
+          console.log('allDelAjex 成功')
+          // 將更新過後的購物車項目重新加回
+          toAddArr.forEach((element) => {
+            const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`
+            allAddAjex.push(
+              new Promise((resolve) => {
+                resolve(
+                  this.$http.post(url, { data: element }).then((response) => {})
+                )
+              })
+            )
+          })
+          Promise.all(allAddAjex).then((res) => {
+            console.log('allAddAjex 成功')
+            this.isLoading = false
+            this.$router.push('/customer_order')
+          })
         })
-        Promise.all(allAddAjex).then(res => {
-          console.log('allAddAjex 成功')
-          this.isLoading = false
-          this.$router.push('/customer_order')
-        })
-      }).catch(err => console.log(err, 'allDelAjex 發送失敗'))
+        .catch((err) => console.log(err, 'allDelAjex 發送失敗'))
     },
     removeCartItem (id) {
       const vm = this
@@ -271,10 +282,17 @@ export default {
   font-weight: bold;
   font-size: 24px;
 }
-// .btn-danger {
-//   background-color: #eb8489;
-//   border-color: #eb8489;
+.self-total {
+  margin-top: 10px;
+  font-weight: 500;
+}
+// .self-total {
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   flex-grow: 1;
 // }
+
 .go-checkout {
   font-weight: bold;
 }

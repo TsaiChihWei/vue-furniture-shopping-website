@@ -267,7 +267,7 @@ export default {
           // vm.tempProduct.imageUrl = response.data.imageUrl
           vm.$set(vm.tempProduct, 'imageUrl', response.data.imageUrl)
         } else {
-          this.$bus.$emit('message:push', response.data.message + '，請上傳圖片檔案！', 'danger')
+          this.$bus.$emit('message:push', response.data.message + '或者檔案太大，請重新上傳！', 'danger')
         }
       })
     },

@@ -24,7 +24,13 @@ export default {
   name: 'AlertMessage',
   data () {
     return {
-      messages: []
+      messages: [
+        // {
+        //   message: '123',
+        //   status: 'danger',
+        //   timestamp: 123
+        // }
+      ]
     }
   },
   methods: {

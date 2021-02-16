@@ -2,6 +2,7 @@
   <div>
     <loading :active.sync="isLoading"></loading>
     <Nav></Nav>
+    <AlertMessage></AlertMessage>
     <div class="banner">
     </div>
     <div class="navbar container">
@@ -31,7 +32,7 @@
     <!-- 顯示產品 -->
     <div class="row">
       <div class="col-6 col-md-4 mb-3 col-lg-2" v-for="item in filterCategory" :key="item.id">
-        <div class="card text-center border-0 shadow-sm">
+        <div class="card text-center border-0 shadow-sm" @click="goToProduct(item.id)">
           <div style="height: 150px; background-size: contain; background-position: center; background-repeat: no-repeat;"
             :style="{backgroundImage: `url(${item.imageUrl})`}">
           </div>
@@ -47,7 +48,7 @@
             </div>
           </div>
           <div class="card-footer">
-            <a type="button" class="btn btn-outline-primary btn-sm ml-auto" @click="addtoCart(item.id)">
+            <a type="button" class="btn btn-outline-primary btn-sm ml-auto" @click.stop="addtoCart(item.id)">
               <i class="fas fa-spinner fa-spin" v-if="status.loadingItem === item.id"></i>
               加到購物車
             </a>
@@ -64,11 +65,13 @@
 <script>
 import Nav from '../Nav'
 import Pagination from '../Pagination'
+import AlertMessage from '../AlertMessage'
 import $ from 'jquery'
 export default {
   components: {
     Nav,
-    Pagination
+    Pagination,
+    AlertMessage
   },
   data () {
     return {
@@ -110,17 +113,6 @@ export default {
         vm.isLoading = false
       })
     },
-    getProduct (id) {
-      const vm = this
-      const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/product/${id}`
-      vm.status.loadingItem = id
-      this.$http.get(url).then((response) => {
-        vm.product = response.data.product
-        $('#productModal').modal('show')
-        console.log(response)
-        vm.status.loadingItem = ''
-      })
-    },
     addtoCart (id, qty = 1) {
       const vm = this
       const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`
@@ -132,6 +124,7 @@ export default {
       this.$http.post(url, { data: cart }).then((response) => {
         console.log(response)
         vm.status.loadingItem = ''
+        this.$bus.$emit('message:push', '商品已加入購物車！', 'info')
         vm.getCart()
       })
     },
@@ -195,6 +188,9 @@ export default {
       this.pagination.currentPage = emittedPage
       // 滾動到最上面
       $('html,body').animate({ scrollTop: 0 }, 'slow')
+    },
+    goToProduct (id) {
+      this.$router.push(`/products/${id}`)
     }
   },
   computed: {
@@ -283,6 +279,11 @@ export default {
 
   .card {
     outline: 1px solid rgba(0,0,0,0.125);
+    cursor: pointer;
+    &:hover {
+      transform: scale(1.1);
+      transition: .6s, all;
+    }
   }
 
   /* 產品分類及價錢分類小螢幕調整 */

@@ -11,6 +11,7 @@ import Cart from '@/components/customer/Cart'
 import CustomerOrder from '@/components/customer/CustomerOrder'
 import CustomerOrderID from '@/components/customer/CustomerOrderID'
 import CustomerOrderPaid from '@/components/customer/CustomerOrderPaid'
+import ProductDetail from '@/components/customer/ProductDetail'
 
 Vue.use(Router)
 
@@ -30,6 +31,11 @@ export default new Router({
       path: '/products',
       name: 'BrowseProducts',
       component: BrowseProducts
+    },
+    {
+      path: '/products/:productId',
+      name: 'ProductDetail',
+      component: ProductDetail
     },
     {
       path: '/cart',
