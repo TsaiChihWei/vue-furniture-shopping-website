@@ -40,7 +40,9 @@
     <div class="social-links mt-5">
       <div class="container d-flex justify-content-center text-center">
         <div class="row">
-          <div class="col-12 col-md-6 d-flex flex-column justify-content-center mb-4">
+          <div
+            class="col-12 col-md-6 d-flex flex-column justify-content-center mb-4"
+          >
             <div class="subtitle">關注我們</div>
             <div class="links d-flex justify-content-center">
               <a href="#"><i class="fab fa-twitter-square"></i></a>
@@ -51,7 +53,11 @@
             </div>
           </div>
           <div class="col-12 col-md-6">
-            <img class="img-fluid" src="../assets/images/living_room.jpg" alt="" />
+            <img
+              class="img-fluid"
+              src="../assets/images/living_room.jpg"
+              alt=""
+            />
           </div>
         </div>
       </div>
@@ -61,22 +67,40 @@
     <div class="container mt-5">
       <div class="title text-center mb-5">熱門產品分類</div>
       <div class="categories row">
-        <routerLink to="/products?category=沙發" class="col-12 col-md-4 category sofa">
+        <routerLink
+          to="/products?category=沙發"
+          class="col-12 col-md-4 category sofa"
+        >
           <div class="subtitle">沙發</div>
         </routerLink>
-        <routerLink to="/products?category=書桌" class="col-12 col-md-4 category desk">
+        <routerLink
+          to="/products?category=書桌"
+          class="col-12 col-md-4 category desk"
+        >
           <div class="subtitle">書桌</div>
         </routerLink>
-        <routerLink to="/products?category=單椅" class="col-12 col-md-4 category chair">
+        <routerLink
+          to="/products?category=單椅"
+          class="col-12 col-md-4 category chair"
+        >
           <div class="subtitle">單椅</div>
         </routerLink>
-        <routerLink to="/products?category=茶几" class="col-12 col-md-4 category teatable">
+        <routerLink
+          to="/products?category=茶几"
+          class="col-12 col-md-4 category teatable"
+        >
           <div class="subtitle">茶几</div>
         </routerLink>
-        <routerLink to="/products?category=燈具" class="col-12 col-md-4 category lamp">
+        <routerLink
+          to="/products?category=燈具"
+          class="col-12 col-md-4 category lamp"
+        >
           <div class="subtitle">燈具</div>
         </routerLink>
-        <routerLink to="/products?category=門" class="col-12 col-md-4 category door">
+        <routerLink
+          to="/products?category=門"
+          class="col-12 col-md-4 category door"
+        >
           <div class="subtitle">門</div>
         </routerLink>
       </div>
@@ -85,83 +109,83 @@
 </template>
 
 <style lang="scss">
-  .title {
-    font-size: 24px;
-    font-weight: bold;
-  }
+.title {
+  font-size: 24px;
+  font-weight: bold;
+}
 
-  .subtitle {
-    color: #aaaaaa;
-  }
+.subtitle {
+  color: #aaaaaa;
+}
 
-  .description {
-    color: #777777;
-  }
+.description {
+  color: #777777;
+}
 
-  .feature+.feature {
-    margin-top: 20px;
-  }
+.feature + .feature {
+  margin-top: 20px;
+}
 
-  /* 關注我們 social-links */
-  .social-links .subtitle {
-    margin-bottom: 20px;
-    font-size: 36px;
-    color: #7ab3b3;
-  }
+/* 關注我們 social-links */
+.social-links .subtitle {
+  margin-bottom: 20px;
+  font-size: 36px;
+  color: #7ab3b3;
+}
 
-  .links a {
-    color: #7ab3b3;
-  }
+.links a {
+  color: #7ab3b3;
+}
 
-  .links a i {
-    margin-right: 10px;
-    font-size: 28px;
-    color: #7ab3b3;
-  }
+.links a i {
+  margin-right: 10px;
+  font-size: 28px;
+  color: #7ab3b3;
+}
 
-  /* 熱門產品分類 */
-  .category {
-    position: relative;
-    transition: 0.3s all;
-  }
+/* 熱門產品分類 */
+.category {
+  position: relative;
+  transition: 0.3s all;
+}
 
-  .category:hover {
-    transform: translateY(-20px);
-  }
+.category:hover {
+  transform: translateY(-20px);
+}
 
-  .category .subtitle {
-    font-size: 24px;
-    color: #000;
-  }
+.category .subtitle {
+  font-size: 24px;
+  color: #000;
+}
 /* 熱門產品分類 放置背景圖片*/
-  .categories > * {
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center center;
-    height: 150px;
-  }
-  .door {
-    background-image: url(../assets/images/door/door-2815723__340.png);
-  }
-  .sofa {
-    background-image: url(../assets/images/sofa/lounger-3912970_960_720.png);
-  }
-  .desk {
-    background-image: url(../assets/images/table/52488.png);
-  }
-  .chair {
-    background-image: url(../assets/images/chair/chair-4616978_960_720.png);
-  }
-  .lamp {
-    background-image: url(../assets/images/lamp/table-lamp-2320606_1280.png);
-  }
-  .teatable {
-    background-image: url(../assets/images/teatable/Console_Table.png);
-  }
+.categories > * {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+  height: 150px;
+}
+.door {
+  background-image: url(../assets/images/door/door-2815723__340.png);
+}
+.sofa {
+  background-image: url(../assets/images/sofa/lounger-3912970_960_720.png);
+}
+.desk {
+  background-image: url(../assets/images/table/52488.png);
+}
+.chair {
+  background-image: url(../assets/images/chair/chair-4616978_960_720.png);
+}
+.lamp {
+  background-image: url(../assets/images/lamp/table-lamp-2320606_1280.png);
+}
+.teatable {
+  background-image: url(../assets/images/teatable/Console_Table.png);
+}
 
-  /* @media screen and (min-width: 992px) {
-        .banner {
-          max-width: 1200px;
-        }
-      } */
+@media screen and (min-width: 768px) {
+  .feature+.feature {
+    margin-top: 0px;
+  }
+}
 </style>
