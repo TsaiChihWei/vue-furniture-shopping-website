@@ -21,9 +21,13 @@
       <nav class="nav text-center">
         <routerLink class="nav-link" to="/home">首頁</routerLink>
         <routerLink class="nav-link" to="/products">購物商場</routerLink>
-        <routerLink class="nav-link" to="/cart" style="position: relative;"
-          >購物車<i class="fas fa-shopping-cart ml-1"
-            ><span class="badge badge-pill badge-info" style="position: absolute; top: 0; right: -2px">{{ cartCount }}</span></i
+        <routerLink class="nav-link" to="/cart" style="position: relative"
+          >購物車<i class="fas fa-shopping-cart ml-1" style="position: relative"
+            ><span
+              class="badge badge-pill badge-info"
+              style="position: absolute"
+              >{{ cartCount }}</span
+            ></i
           ></routerLink
         >
         <routerLink class="nav-link" to="/admin">後臺管理</routerLink>
@@ -68,6 +72,11 @@ export default {
 .fas.fa-bars {
   font-size: 40px;
   cursor: pointer;
+}
+
+.badge-pill {
+  top: -10px;
+  right: -17px;
 }
 
 @media screen and (min-width: 768px) {
